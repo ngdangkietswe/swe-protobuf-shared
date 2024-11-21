@@ -1,0 +1,49 @@
+syntax = "proto3";
+package common;
+
+option go_package = "proto/common";
+
+option java_multiple_files = true;
+option java_package = "dev.ngdangkietswe.sweprotobufshared.common.protobuf";
+option java_outer_classname = "CommonProtobuf";
+
+message Pageable {
+  int32 page = 1;
+  int32 size = 2;
+  string sort = 3;
+  string direction = 4;
+  bool un_paged = 5;
+  optional string search = 6;
+}
+
+message PageMetaData {
+  int32 page = 1;
+  int32 size = 2;
+  int64 total_pages = 3;
+  int64 total_elements = 4;
+  bool next = 5;
+  bool previous = 6;
+}
+
+message Error {
+  string status = 1;
+  int32 code = 2;
+  string message = 3;
+  map<string, string> details = 4;
+}
+
+message UpsertResp {
+  message Data {
+    string id = 1;
+  }
+  bool success = 1;
+  oneof resp {
+    Data data = 2;
+    Error error = 3;
+  }
+}
+
+message EmptyResp {
+  bool success = 1;
+  optional Error error = 2;
+}

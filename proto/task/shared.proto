@@ -1,0 +1,21 @@
+syntax = "proto3";
+package task;
+
+option java_multiple_files = true;
+option java_package = "dev.ngdangkietswe.sweprotobufshared.task.protobuf";
+option java_outer_classname = "TaskProtobuf";
+
+enum Status {
+  STATUS_UNSPECIFIED = 0;
+  STATUS_PENDING = 1;
+  STATUS_PROCESSING = 2;
+  STATUS_COMPLETED = 3;
+  STATUS_FAILED = 4;
+}
+
+message Task {
+  optional string id = 1;
+  string name = 2;
+  string description = 3;
+  Status status = 4;
+}

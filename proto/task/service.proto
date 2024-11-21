@@ -1,0 +1,38 @@
+syntax = "proto3";
+package task;
+
+option go_package = "proto/task";
+
+option java_multiple_files = true;
+option java_package = "dev.ngdangkietswe.sweprotobufshared.task.service";
+option java_outer_classname = "TaskServiceAPI";
+
+import "google/api/annotations.proto";
+import "common/shared.proto";
+import "task/shared.proto";
+
+service TaskService {
+  rpc UpsertTask (Task) returns (common.UpsertResp) {
+    option (google.api.http) = {
+      post: "/api/v1/tasks"
+      body: "*"
+    };
+  }
+  rpc ListTask (common.Pageable) returns (ListTaskResp) {
+    option (google.api.http) = {
+      get: "/api/v1/tasks"
+    };
+  }
+}
+
+message ListTaskResp {
+  message Data {
+    repeated Task tasks = 1;
+    common.PageMetaData page_meta_data = 2;
+  }
+  bool success = 1;
+  oneof resp {
+    Data data = 2;
+    common.Error error = 3;
+  }
+}
