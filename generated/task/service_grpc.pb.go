@@ -22,6 +22,7 @@ const _ = grpc.SupportPackageIsVersion9
 const (
 	TaskService_UpsertTask_FullMethodName = "/task.TaskService/UpsertTask"
 	TaskService_ListTask_FullMethodName   = "/task.TaskService/ListTask"
+	TaskService_GetTask_FullMethodName    = "/task.TaskService/GetTask"
 )
 
 // TaskServiceClient is the client API for TaskService service.
@@ -30,6 +31,7 @@ const (
 type TaskServiceClient interface {
 	UpsertTask(ctx context.Context, in *Task, opts ...grpc.CallOption) (*common.UpsertResp, error)
 	ListTask(ctx context.Context, in *common.Pageable, opts ...grpc.CallOption) (*ListTaskResp, error)
+	GetTask(ctx context.Context, in *common.IdReq, opts ...grpc.CallOption) (*Task, error)
 }
 
 type taskServiceClient struct {
@@ -60,12 +62,23 @@ func (c *taskServiceClient) ListTask(ctx context.Context, in *common.Pageable, o
 	return out, nil
 }
 
+func (c *taskServiceClient) GetTask(ctx context.Context, in *common.IdReq, opts ...grpc.CallOption) (*Task, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(Task)
+	err := c.cc.Invoke(ctx, TaskService_GetTask_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // TaskServiceServer is the server API for TaskService service.
 // All implementations must embed UnimplementedTaskServiceServer
 // for forward compatibility.
 type TaskServiceServer interface {
 	UpsertTask(context.Context, *Task) (*common.UpsertResp, error)
 	ListTask(context.Context, *common.Pageable) (*ListTaskResp, error)
+	GetTask(context.Context, *common.IdReq) (*Task, error)
 	mustEmbedUnimplementedTaskServiceServer()
 }
 
@@ -81,6 +94,9 @@ func (UnimplementedTaskServiceServer) UpsertTask(context.Context, *Task) (*commo
 }
 func (UnimplementedTaskServiceServer) ListTask(context.Context, *common.Pageable) (*ListTaskResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListTask not implemented")
+}
+func (UnimplementedTaskServiceServer) GetTask(context.Context, *common.IdReq) (*Task, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetTask not implemented")
 }
 func (UnimplementedTaskServiceServer) mustEmbedUnimplementedTaskServiceServer() {}
 func (UnimplementedTaskServiceServer) testEmbeddedByValue()                     {}
@@ -139,6 +155,24 @@ func _TaskService_ListTask_Handler(srv interface{}, ctx context.Context, dec fun
 	return interceptor(ctx, in, info, handler)
 }
 
+func _TaskService_GetTask_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(common.IdReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TaskServiceServer).GetTask(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TaskService_GetTask_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TaskServiceServer).GetTask(ctx, req.(*common.IdReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // TaskService_ServiceDesc is the grpc.ServiceDesc for TaskService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -153,6 +187,10 @@ var TaskService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListTask",
 			Handler:    _TaskService_ListTask_Handler,
+		},
+		{
+			MethodName: "GetTask",
+			Handler:    _TaskService_GetTask_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

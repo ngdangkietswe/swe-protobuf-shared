@@ -32,6 +32,12 @@ message Error {
   map<string, string> details = 4;
 }
 
+// COMMON REQUEST MESSAGES
+message IdReq {
+  string id = 1;
+}
+
+// COMMON RESPONSE MESSAGES
 message UpsertResp {
   message Data {
     string id = 1;

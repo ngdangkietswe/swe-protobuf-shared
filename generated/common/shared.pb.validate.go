@@ -365,6 +365,106 @@ var _ interface {
 	ErrorName() string
 } = ErrorValidationError{}
 
+// Validate checks the field values on IdReq with the rules defined in the
+// proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *IdReq) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on IdReq with the rules defined in the
+// proto definition for this message. If any rules are violated, the result is
+// a list of violation errors wrapped in IdReqMultiError, or nil if none found.
+func (m *IdReq) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *IdReq) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Id
+
+	if len(errors) > 0 {
+		return IdReqMultiError(errors)
+	}
+
+	return nil
+}
+
+// IdReqMultiError is an error wrapping multiple validation errors returned by
+// IdReq.ValidateAll() if the designated constraints aren't met.
+type IdReqMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m IdReqMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m IdReqMultiError) AllErrors() []error { return m }
+
+// IdReqValidationError is the validation error returned by IdReq.Validate if
+// the designated constraints aren't met.
+type IdReqValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e IdReqValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e IdReqValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e IdReqValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e IdReqValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e IdReqValidationError) ErrorName() string { return "IdReqValidationError" }
+
+// Error satisfies the builtin error interface
+func (e IdReqValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sIdReq.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = IdReqValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = IdReqValidationError{}
+
 // Validate checks the field values on UpsertResp with the rules defined in the
 // proto definition for this message. If any rules are violated, the first
 // error encountered is returned, or nil if there are no violations.
