@@ -1,0 +1,28 @@
+syntax = "proto3";
+package auth;
+
+option go_package = "proto/auth";
+
+option java_multiple_files = true;
+option java_package = "dev.ngdangkietswe.sweprotobufshared.auth.service";
+option java_outer_classname = "AuthServiceAPI";
+
+import "google/api/annotations.proto";
+import "google/protobuf/wrappers.proto";
+import "common/shared.proto";
+import "auth/shared.proto";
+
+service AuthService {
+  rpc RegisterUser (User) returns (common.UpsertResp) {
+    option (google.api.http) = {
+      post: "/api/v1/auth/register"
+      body: "*"
+    };
+  }
+  rpc Login (LoginReq) returns (LoginResp) {
+    option (google.api.http) = {
+      post: "/api/v1/auth/login"
+      body: "*"
+    };
+  }
+}
