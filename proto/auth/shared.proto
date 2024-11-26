@@ -21,13 +21,19 @@ message LoginReq {
 }
 
 message LoginResp {
-  optional common.Error error = 1;
-  string token_type = 2;
-  string access_token = 3;
-  string access_token_expires_in = 4;
-  string refresh_token = 5;
-  string refresh_token_expires_in = 6;
-  bool two_factor_auth = 7;
+  bool success = 1;
+  message Data {
+    string token_type = 1;
+    string access_token = 2;
+    string access_token_expires_in = 3;
+    string refresh_token = 4;
+    string refresh_token_expires_in = 5;
+    bool two_factor_auth = 6;
+  }
+  oneof resp {
+    Data data = 2;
+    common.Error error = 3;
+  }
 }
 
 // TWO FACTOR AUTHENTICATION
@@ -36,6 +42,7 @@ message EnableOrDisable2FAReq {
 }
 
 message EnableOrDisable2FAResp {
-  optional common.Error error = 1;
-  string qr_code_image_url = 2;
+  bool success = 1;
+  optional common.Error error = 2;
+  optional string qr_code_image_url = 3;
 }

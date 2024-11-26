@@ -272,19 +272,61 @@ func (m *LoginResp) validate(all bool) error {
 
 	var errors []error
 
-	// no validation rules for TokenType
+	// no validation rules for Success
 
-	// no validation rules for AccessToken
+	switch v := m.Resp.(type) {
+	case *LoginResp_Data_:
+		if v == nil {
+			err := LoginRespValidationError{
+				field:  "Resp",
+				reason: "oneof value cannot be a typed-nil",
+			}
+			if !all {
+				return err
+			}
+			errors = append(errors, err)
+		}
 
-	// no validation rules for AccessTokenExpiresIn
+		if all {
+			switch v := interface{}(m.GetData()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, LoginRespValidationError{
+						field:  "Data",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, LoginRespValidationError{
+						field:  "Data",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetData()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return LoginRespValidationError{
+					field:  "Data",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
 
-	// no validation rules for RefreshToken
-
-	// no validation rules for RefreshTokenExpiresIn
-
-	// no validation rules for TwoFactorAuth
-
-	if m.Error != nil {
+	case *LoginResp_Error:
+		if v == nil {
+			err := LoginRespValidationError{
+				field:  "Resp",
+				reason: "oneof value cannot be a typed-nil",
+			}
+			if !all {
+				return err
+			}
+			errors = append(errors, err)
+		}
 
 		if all {
 			switch v := interface{}(m.GetError()).(type) {
@@ -315,6 +357,8 @@ func (m *LoginResp) validate(all bool) error {
 			}
 		}
 
+	default:
+		_ = v // ensures v is used
 	}
 
 	if len(errors) > 0 {
@@ -520,7 +564,7 @@ func (m *EnableOrDisable2FAResp) validate(all bool) error {
 
 	var errors []error
 
-	// no validation rules for QrCodeImageUrl
+	// no validation rules for Success
 
 	if m.Error != nil {
 
@@ -553,6 +597,10 @@ func (m *EnableOrDisable2FAResp) validate(all bool) error {
 			}
 		}
 
+	}
+
+	if m.QrCodeImageUrl != nil {
+		// no validation rules for QrCodeImageUrl
 	}
 
 	if len(errors) > 0 {
@@ -634,3 +682,115 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = EnableOrDisable2FARespValidationError{}
+
+// Validate checks the field values on LoginResp_Data with the rules defined in
+// the proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *LoginResp_Data) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on LoginResp_Data with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in LoginResp_DataMultiError,
+// or nil if none found.
+func (m *LoginResp_Data) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *LoginResp_Data) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for TokenType
+
+	// no validation rules for AccessToken
+
+	// no validation rules for AccessTokenExpiresIn
+
+	// no validation rules for RefreshToken
+
+	// no validation rules for RefreshTokenExpiresIn
+
+	// no validation rules for TwoFactorAuth
+
+	if len(errors) > 0 {
+		return LoginResp_DataMultiError(errors)
+	}
+
+	return nil
+}
+
+// LoginResp_DataMultiError is an error wrapping multiple validation errors
+// returned by LoginResp_Data.ValidateAll() if the designated constraints
+// aren't met.
+type LoginResp_DataMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m LoginResp_DataMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m LoginResp_DataMultiError) AllErrors() []error { return m }
+
+// LoginResp_DataValidationError is the validation error returned by
+// LoginResp_Data.Validate if the designated constraints aren't met.
+type LoginResp_DataValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e LoginResp_DataValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e LoginResp_DataValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e LoginResp_DataValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e LoginResp_DataValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e LoginResp_DataValidationError) ErrorName() string { return "LoginResp_DataValidationError" }
+
+// Error satisfies the builtin error interface
+func (e LoginResp_DataValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sLoginResp_Data.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = LoginResp_DataValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = LoginResp_DataValidationError{}
