@@ -169,6 +169,10 @@ func (m *LoginReq) validate(all bool) error {
 
 	// no validation rules for Password
 
+	if m.Otp != nil {
+		// no validation rules for Otp
+	}
+
 	if len(errors) > 0 {
 		return LoginReqMultiError(errors)
 	}
@@ -268,7 +272,17 @@ func (m *LoginResp) validate(all bool) error {
 
 	var errors []error
 
-	// no validation rules for Token
+	// no validation rules for TokenType
+
+	// no validation rules for AccessToken
+
+	// no validation rules for AccessTokenExpiresIn
+
+	// no validation rules for RefreshToken
+
+	// no validation rules for RefreshTokenExpiresIn
+
+	// no validation rules for TwoFactorAuth
 
 	if m.Error != nil {
 
@@ -379,3 +393,244 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = LoginRespValidationError{}
+
+// Validate checks the field values on EnableOrDisable2FAReq with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *EnableOrDisable2FAReq) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on EnableOrDisable2FAReq with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// EnableOrDisable2FAReqMultiError, or nil if none found.
+func (m *EnableOrDisable2FAReq) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *EnableOrDisable2FAReq) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Enable
+
+	if len(errors) > 0 {
+		return EnableOrDisable2FAReqMultiError(errors)
+	}
+
+	return nil
+}
+
+// EnableOrDisable2FAReqMultiError is an error wrapping multiple validation
+// errors returned by EnableOrDisable2FAReq.ValidateAll() if the designated
+// constraints aren't met.
+type EnableOrDisable2FAReqMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m EnableOrDisable2FAReqMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m EnableOrDisable2FAReqMultiError) AllErrors() []error { return m }
+
+// EnableOrDisable2FAReqValidationError is the validation error returned by
+// EnableOrDisable2FAReq.Validate if the designated constraints aren't met.
+type EnableOrDisable2FAReqValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e EnableOrDisable2FAReqValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e EnableOrDisable2FAReqValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e EnableOrDisable2FAReqValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e EnableOrDisable2FAReqValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e EnableOrDisable2FAReqValidationError) ErrorName() string {
+	return "EnableOrDisable2FAReqValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e EnableOrDisable2FAReqValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sEnableOrDisable2FAReq.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = EnableOrDisable2FAReqValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = EnableOrDisable2FAReqValidationError{}
+
+// Validate checks the field values on EnableOrDisable2FAResp with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *EnableOrDisable2FAResp) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on EnableOrDisable2FAResp with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// EnableOrDisable2FARespMultiError, or nil if none found.
+func (m *EnableOrDisable2FAResp) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *EnableOrDisable2FAResp) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for QrCodeImageUrl
+
+	if m.Error != nil {
+
+		if all {
+			switch v := interface{}(m.GetError()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, EnableOrDisable2FARespValidationError{
+						field:  "Error",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, EnableOrDisable2FARespValidationError{
+						field:  "Error",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetError()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return EnableOrDisable2FARespValidationError{
+					field:  "Error",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	if len(errors) > 0 {
+		return EnableOrDisable2FARespMultiError(errors)
+	}
+
+	return nil
+}
+
+// EnableOrDisable2FARespMultiError is an error wrapping multiple validation
+// errors returned by EnableOrDisable2FAResp.ValidateAll() if the designated
+// constraints aren't met.
+type EnableOrDisable2FARespMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m EnableOrDisable2FARespMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m EnableOrDisable2FARespMultiError) AllErrors() []error { return m }
+
+// EnableOrDisable2FARespValidationError is the validation error returned by
+// EnableOrDisable2FAResp.Validate if the designated constraints aren't met.
+type EnableOrDisable2FARespValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e EnableOrDisable2FARespValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e EnableOrDisable2FARespValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e EnableOrDisable2FARespValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e EnableOrDisable2FARespValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e EnableOrDisable2FARespValidationError) ErrorName() string {
+	return "EnableOrDisable2FARespValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e EnableOrDisable2FARespValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sEnableOrDisable2FAResp.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = EnableOrDisable2FARespValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = EnableOrDisable2FARespValidationError{}

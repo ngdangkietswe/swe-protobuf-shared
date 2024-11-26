@@ -17,9 +17,25 @@ message User {
 message LoginReq {
   string username = 1;
   string password = 2;
+  optional string otp = 3;
 }
 
 message LoginResp {
   optional common.Error error = 1;
-  string token = 2;
+  string token_type = 2;
+  string access_token = 3;
+  string access_token_expires_in = 4;
+  string refresh_token = 5;
+  string refresh_token_expires_in = 6;
+  bool two_factor_auth = 7;
+}
+
+// TWO FACTOR AUTHENTICATION
+message EnableOrDisable2FAReq {
+  bool enable = 1;
+}
+
+message EnableOrDisable2FAResp {
+  optional common.Error error = 1;
+  string qr_code_image_url = 2;
 }
