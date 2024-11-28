@@ -9,6 +9,9 @@
       "name": "AuthService"
     },
     {
+      "name": "StorageService"
+    },
+    {
       "name": "TaskService"
     }
   ],
@@ -112,6 +115,38 @@
         ],
         "tags": [
           "AuthService"
+        ]
+      }
+    },
+    "/api/v1/storage/presigned-url": {
+      "post": {
+        "operationId": "StorageService_GetPresignedURL",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/taskPresignedURLResp"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/taskPresignedURLReq"
+            }
+          }
+        ],
+        "tags": [
+          "StorageService"
         ]
       }
     },
@@ -427,6 +462,15 @@
       },
       "additionalProperties": {}
     },
+    "storagePresignedURLMethod": {
+      "type": "integer",
+      "format": "int32",
+      "enum": [
+        0,
+        1
+      ],
+      "default": 0
+    },
     "taskListTaskResp": {
       "type": "object",
       "properties": {
@@ -453,6 +497,38 @@
         },
         "page_meta_data": {
           "$ref": "#/definitions/commonPageMetaData"
+        }
+      }
+    },
+    "taskPresignedURLReq": {
+      "type": "object",
+      "properties": {
+        "object_name": {
+          "type": "string"
+        },
+        "type": {
+          "$ref": "#/definitions/storagePresignedURLMethod"
+        },
+        "bucket_name": {
+          "type": "string"
+        },
+        "duration": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "taskPresignedURLResp": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "url": {
+          "type": "string"
+        },
+        "error": {
+          "$ref": "#/definitions/commonError"
         }
       }
     },
