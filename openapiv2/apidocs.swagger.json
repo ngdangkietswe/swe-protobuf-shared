@@ -125,7 +125,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/taskPresignedURLResp"
+              "$ref": "#/definitions/storagePresignedURLResp"
             }
           },
           "default": {
@@ -141,7 +141,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/taskPresignedURLReq"
+              "$ref": "#/definitions/storagePresignedURLReq"
             }
           }
         ],
@@ -471,6 +471,38 @@
       ],
       "default": 0
     },
+    "storagePresignedURLReq": {
+      "type": "object",
+      "properties": {
+        "object_name": {
+          "type": "string"
+        },
+        "type": {
+          "$ref": "#/definitions/storagePresignedURLMethod"
+        },
+        "bucket_name": {
+          "type": "string"
+        },
+        "duration": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "storagePresignedURLResp": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "url": {
+          "type": "string"
+        },
+        "error": {
+          "$ref": "#/definitions/commonError"
+        }
+      }
+    },
     "taskListTaskResp": {
       "type": "object",
       "properties": {
@@ -497,38 +529,6 @@
         },
         "page_meta_data": {
           "$ref": "#/definitions/commonPageMetaData"
-        }
-      }
-    },
-    "taskPresignedURLReq": {
-      "type": "object",
-      "properties": {
-        "object_name": {
-          "type": "string"
-        },
-        "type": {
-          "$ref": "#/definitions/storagePresignedURLMethod"
-        },
-        "bucket_name": {
-          "type": "string"
-        },
-        "duration": {
-          "type": "integer",
-          "format": "int32"
-        }
-      }
-    },
-    "taskPresignedURLResp": {
-      "type": "object",
-      "properties": {
-        "success": {
-          "type": "boolean"
-        },
-        "url": {
-          "type": "string"
-        },
-        "error": {
-          "$ref": "#/definitions/commonError"
         }
       }
     },

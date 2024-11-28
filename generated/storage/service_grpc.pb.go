@@ -19,7 +19,7 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	StorageService_GetPresignedURL_FullMethodName = "/task.StorageService/GetPresignedURL"
+	StorageService_GetPresignedURL_FullMethodName = "/storage.StorageService/GetPresignedURL"
 )
 
 // StorageServiceClient is the client API for StorageService service.
@@ -108,7 +108,7 @@ func _StorageService_GetPresignedURL_Handler(srv interface{}, ctx context.Contex
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var StorageService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "task.StorageService",
+	ServiceName: "storage.StorageService",
 	HandlerType: (*StorageServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{

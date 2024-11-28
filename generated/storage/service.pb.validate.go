@@ -17,8 +17,6 @@ import (
 	"unicode/utf8"
 
 	"google.golang.org/protobuf/types/known/anypb"
-
-	storage "github.com/ngdangkietswe/swe-protobuf-shared/generated/storage"
 )
 
 // ensure the imports are used
@@ -35,8 +33,6 @@ var (
 	_ = (*mail.Address)(nil)
 	_ = anypb.Any{}
 	_ = sort.Sort
-
-	_ = storage.PresignedURLMethod(0)
 )
 
 // Validate checks the field values on PresignedURLReq with the rules defined

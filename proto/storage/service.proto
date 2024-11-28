@@ -1,5 +1,5 @@
 syntax = "proto3";
-package task;
+package storage;
 
 option go_package = "proto/storage";
 

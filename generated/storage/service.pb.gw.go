@@ -71,7 +71,7 @@ func RegisterStorageServiceHandlerServer(ctx context.Context, mux *runtime.Serve
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/task.StorageService/GetPresignedURL", runtime.WithHTTPPathPattern("/api/v1/storage/presigned-url"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/storage.StorageService/GetPresignedURL", runtime.WithHTTPPathPattern("/api/v1/storage/presigned-url"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -129,7 +129,7 @@ func RegisterStorageServiceHandlerClient(ctx context.Context, mux *runtime.Serve
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/task.StorageService/GetPresignedURL", runtime.WithHTTPPathPattern("/api/v1/storage/presigned-url"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/storage.StorageService/GetPresignedURL", runtime.WithHTTPPathPattern("/api/v1/storage/presigned-url"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
