@@ -20,6 +20,7 @@ const _ = grpc.SupportPackageIsVersion9
 
 const (
 	StorageService_GetPresignedURL_FullMethodName = "/storage.StorageService/GetPresignedURL"
+	StorageService_ListFileObject_FullMethodName  = "/storage.StorageService/ListFileObject"
 )
 
 // StorageServiceClient is the client API for StorageService service.
@@ -27,6 +28,7 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type StorageServiceClient interface {
 	GetPresignedURL(ctx context.Context, in *PresignedURLReq, opts ...grpc.CallOption) (*PresignedURLResp, error)
+	ListFileObject(ctx context.Context, in *ListFileObjectReq, opts ...grpc.CallOption) (*ListFileObjectResp, error)
 }
 
 type storageServiceClient struct {
@@ -47,11 +49,22 @@ func (c *storageServiceClient) GetPresignedURL(ctx context.Context, in *Presigne
 	return out, nil
 }
 
+func (c *storageServiceClient) ListFileObject(ctx context.Context, in *ListFileObjectReq, opts ...grpc.CallOption) (*ListFileObjectResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListFileObjectResp)
+	err := c.cc.Invoke(ctx, StorageService_ListFileObject_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // StorageServiceServer is the server API for StorageService service.
 // All implementations must embed UnimplementedStorageServiceServer
 // for forward compatibility.
 type StorageServiceServer interface {
 	GetPresignedURL(context.Context, *PresignedURLReq) (*PresignedURLResp, error)
+	ListFileObject(context.Context, *ListFileObjectReq) (*ListFileObjectResp, error)
 	mustEmbedUnimplementedStorageServiceServer()
 }
 
@@ -64,6 +77,9 @@ type UnimplementedStorageServiceServer struct{}
 
 func (UnimplementedStorageServiceServer) GetPresignedURL(context.Context, *PresignedURLReq) (*PresignedURLResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetPresignedURL not implemented")
+}
+func (UnimplementedStorageServiceServer) ListFileObject(context.Context, *ListFileObjectReq) (*ListFileObjectResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListFileObject not implemented")
 }
 func (UnimplementedStorageServiceServer) mustEmbedUnimplementedStorageServiceServer() {}
 func (UnimplementedStorageServiceServer) testEmbeddedByValue()                        {}
@@ -104,6 +120,24 @@ func _StorageService_GetPresignedURL_Handler(srv interface{}, ctx context.Contex
 	return interceptor(ctx, in, info, handler)
 }
 
+func _StorageService_ListFileObject_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListFileObjectReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StorageServiceServer).ListFileObject(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: StorageService_ListFileObject_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StorageServiceServer).ListFileObject(ctx, req.(*ListFileObjectReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // StorageService_ServiceDesc is the grpc.ServiceDesc for StorageService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -114,6 +148,10 @@ var StorageService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetPresignedURL",
 			Handler:    _StorageService_GetPresignedURL_Handler,
+		},
+		{
+			MethodName: "ListFileObject",
+			Handler:    _StorageService_ListFileObject_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

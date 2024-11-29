@@ -34,3 +34,110 @@ var (
 	_ = anypb.Any{}
 	_ = sort.Sort
 )
+
+// Validate checks the field values on FileObject with the rules defined in the
+// proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *FileObject) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on FileObject with the rules defined in
+// the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in FileObjectMultiError, or
+// nil if none found.
+func (m *FileObject) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *FileObject) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Type
+
+	// no validation rules for ObjectName
+
+	// no validation rules for FileName
+
+	// no validation rules for Url
+
+	if len(errors) > 0 {
+		return FileObjectMultiError(errors)
+	}
+
+	return nil
+}
+
+// FileObjectMultiError is an error wrapping multiple validation errors
+// returned by FileObject.ValidateAll() if the designated constraints aren't met.
+type FileObjectMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m FileObjectMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m FileObjectMultiError) AllErrors() []error { return m }
+
+// FileObjectValidationError is the validation error returned by
+// FileObject.Validate if the designated constraints aren't met.
+type FileObjectValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e FileObjectValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e FileObjectValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e FileObjectValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e FileObjectValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e FileObjectValidationError) ErrorName() string { return "FileObjectValidationError" }
+
+// Error satisfies the builtin error interface
+func (e FileObjectValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sFileObject.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = FileObjectValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = FileObjectValidationError{}
