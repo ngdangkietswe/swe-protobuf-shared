@@ -38,11 +38,11 @@ jobs:
       - name: Update Buf
         run: buf mod update
 
-#      - name: Lint Protobuf files
-#        run: buf lint
+      #      - name: Lint Protobuf files
+      #        run: buf lint
 
       - name: Generate code with Buf
-        run: buf generate --template buf.gen.yaml
+        run: buf generate
 
       - name: Build the project
         run: mvn -B package --file pom.xml
