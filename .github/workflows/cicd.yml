@@ -7,7 +7,7 @@ on:
   pull_request:
 
 jobs:
-  build_and_test:
+  build-and-test:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
@@ -48,13 +48,16 @@ jobs:
         run: mvn -B package --file pom.xml
 
   commit-and-push:
-    - name: Commit and push changes
-      run: |
-        git config --global user.name "ngdangkiet"
-        git config --global user.email "kietnguyen17052001@gmail.com"
-        git add .
-        git commit -m "chore: regenerate files"
-        git push origin main
-      env:
-        # Ensure the workflow has permission to push code
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Commit and push changes
+        run: |
+          git config --global user.name "ngdangkiet"
+          git config --global user.email "kietnguyen17052001@gmail.com"
+          git add .
+          git commit -m "chore: regenerate files"
+          git push origin main
+        env:
+          # Ensure the workflow has permission to push code
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
