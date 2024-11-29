@@ -9,3 +9,10 @@ enum PresignedURLMethod {
   PRESIGNED_URL_METHOD_GET = 0;
   PRESIGNED_URL_METHOD_PUT = 1;
 }
+
+message FileObject {
+  string type = 1;
+  string object_name = 2;
+  string file_name = 3;
+  string url = 4;
+}
