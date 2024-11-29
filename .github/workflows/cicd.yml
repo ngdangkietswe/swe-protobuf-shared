@@ -49,6 +49,7 @@ jobs:
         run: |
           git config --global user.name "ngdangkietse"
           git config --global user.email "kietnguyen17052001@gmail.com"
+          sudo chown $USER:$USER buf.lock
           chmod -R u+w .
           if [ -n "$(git status -s)" ]; then
             git status
