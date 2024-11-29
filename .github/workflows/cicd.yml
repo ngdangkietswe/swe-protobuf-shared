@@ -56,8 +56,9 @@ jobs:
         run: |
           git config --global user.name "ngdangkietse"
           git config --global user.email "kietnguyen17052001@gmail.com"
-          if [ -n "$(git status --porcelain)" ]; then
-            git add -A
+          if [ -n "$(git status -s)" ]; then
+            git status
+            git add .
             git commit -m "chore: regenerate files"
             git push origin main
           else
