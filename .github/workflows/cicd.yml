@@ -37,7 +37,7 @@ jobs:
 
       - name: Generate files with Buf
         run: |
-          buf dep update
+          buf mod update
           buf build
           buf generate --template buf.gen.yaml --verbose
 
