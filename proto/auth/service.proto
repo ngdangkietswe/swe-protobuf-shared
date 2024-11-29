@@ -7,7 +7,7 @@ option java_multiple_files = true;
 option java_package = "dev.ngdangkietswe.sweprotobufshared.auth.service";
 option java_outer_classname = "AuthServiceAPI";
 
-import "proto/google/api/annotations.proto";
+import "google/api/annotations.proto";
 import "common/shared.proto";
 import "auth/shared.proto";
 
