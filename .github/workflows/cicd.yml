@@ -1,0 +1,60 @@
+name: Java CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  build_and_test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v2
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Set up cache for Maven
+        uses: actions/cache@v2
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-m2
+
+      - name: Generate Java files
+        run: mvn -T 1C clean install -Dmaven.test.skip=true -DskipTests=true
+
+      - name: Generate Go files
+        run: |
+          docker run --rm \
+            --volume "$(pwd):/workspace" \
+            --workdir /workspace \
+            bufbuild/buf build && bufbuild/buf generate
+
+      - name: Lint Protobuf files
+        run: |
+          docker run --rm \
+            --volume "$(pwd):/workspace" \
+            --workdir /workspace \
+            bufbuild/buf lint
+
+      - name: Build the project
+        run: mvn -B package --file pom.xml
+
+  commit-and-push:
+    - name: Commit and push changes
+      run: |
+        git config --global user.name "ngdangkiet"
+        git config --global user.email "kietnguyen17052001@gmail.com"
+        git add .
+        git commit -m "chore: regenerate files"
+        git push origin main
+      env:
+        # Ensure the workflow has permission to push code
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
