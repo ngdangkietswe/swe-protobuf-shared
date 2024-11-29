@@ -51,9 +51,12 @@ jobs:
     needs: build-and-test
     runs-on: ubuntu-latest
     steps:
+      - name: Check out repository
+        uses: actions/checkout@v2
+
       - name: Commit and push changes
         run: |
-          git config --global user.name "ngdangkiet"
+          git config --global user.name "ngdangkietse"
           git config --global user.email "kietnguyen17052001@gmail.com"
           git add .
           git commit -m "chore: regenerate files"
