@@ -7,7 +7,7 @@ on:
   pull_request:
 
 jobs:
-  build-and-test:
+  build-test-commit:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
@@ -27,11 +27,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-m2
 
-      - name: Install Buf CLI
-        run: |
-          curl -sSL https://github.com/bufbuild/buf/releases/download/v1.47.2/buf-Linux-x86_64 -o /usr/local/bin/buf
-          chmod +x /usr/local/bin/buf
-
       - name: Install make and dependencies
         run: |
           sudo apt-get update
@@ -44,11 +39,6 @@ jobs:
       - name: Run make gen-go
         run: |
           make gen-go
-
-      - name: Check generated files
-        run: |
-          ls -R generated
-          git status
 
       - name: Commit and push changes
         run: |
