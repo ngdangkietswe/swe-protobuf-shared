@@ -45,6 +45,10 @@ jobs:
         run: |
           make gen-go
 
+      - name: Check generated files
+        run: |
+          ls -R generated
+          git status
   commit-and-push:
     needs: build-and-test
     runs-on: ubuntu-latest
