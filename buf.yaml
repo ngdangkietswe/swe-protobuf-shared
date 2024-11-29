@@ -2,8 +2,6 @@ version: v1beta1
 build:
   roots:
     - proto
-  excludes:
-    - proto/protoc-gen-openapiv2
 lint:
   use:
     - BASIC

@@ -27,19 +27,23 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-m2
 
-      - name: Generate Java files
-        run: mvn -T 1C clean install -Dmaven.test.skip=true -DskipTests=true
-
       - name: Install Buf CLI
         run: |
           curl -sSL https://github.com/bufbuild/buf/releases/download/v1.47.2/buf-Linux-x86_64 -o /usr/local/bin/buf
           chmod +x /usr/local/bin/buf
 
-      - name: Generate files with Buf
+      - name: Install make and dependencies
         run: |
-          buf mod update
-          buf build
-          buf generate --template buf.gen.yaml --verbose
+          sudo apt-get update
+          sudo apt-get install make
+
+      - name: Run make gen-java
+        run: |
+          make gen-java
+
+      - name: Run make gen-go
+        run: |
+          make gen-go
 
   commit-and-push:
     needs: build-and-test
