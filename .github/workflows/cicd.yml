@@ -30,13 +30,16 @@ jobs:
       - name: Generate Java files
         run: mvn -T 1C clean install -Dmaven.test.skip=true -DskipTests=true
 
+      - name: Install Buf CLI
+        run: |
+          curl -sSL https://github.com/bufbuild/buf/releases/download/v1.20.0/buf-Linux-x86_64 -o /usr/local/bin/buf
+          chmod +x /usr/local/bin/buf
+
       - name: Lint Protobuf files
-        uses: bufbuild/buf-action-lint@v1
+        run: buf lint
 
       - name: Generate code with Buf
-        uses: bufbuild/buf-action-generate@v1
-        with:
-          config-file: buf.gen.yaml
+        run: buf generate --template buf.gen.yaml
 
       - name: Build the project
         run: mvn -B package --file pom.xml
