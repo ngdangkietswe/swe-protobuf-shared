@@ -49,12 +49,6 @@ jobs:
         run: |
           ls -R generated
           git status
-  commit-and-push:
-    needs: build-and-test
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@v2
 
       - name: Commit and push changes
         run: |
