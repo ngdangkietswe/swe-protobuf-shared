@@ -32,7 +32,7 @@ jobs:
 
       - name: Install Buf CLI
         run: |
-          curl -sSL https://github.com/bufbuild/buf/releases/download/v1.20.0/buf-Linux-x86_64 -o /usr/local/bin/buf
+          curl -sSL https://github.com/bufbuild/buf/releases/download/v1.47.2/buf-Linux-x86_64 -o /usr/local/bin/buf
           chmod +x /usr/local/bin/buf
 
       - name: Generate files with Buf
