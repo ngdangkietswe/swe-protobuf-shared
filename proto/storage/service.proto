@@ -20,7 +20,13 @@ service StorageService {
   }
   rpc ListFileObject (ListFileObjectReq) returns (ListFileObjectResp) {
     option (google.api.http) = {
-      post: "/api/v1/storage/list-file-object"
+      post: "/api/v1/storage/file/objects"
+      body: "*"
+    };
+  }
+  rpc DeleteFileObject (DeleteFileObjectReq) returns (DeleteFileObjectResp) {
+    option (google.api.http) = {
+      post: "/api/v1/storage/file/object/delete"
       body: "*"
     };
   }
@@ -55,4 +61,14 @@ message ListFileObjectResp {
     Data data = 2;
     common.Error error = 3;
   }
+}
+
+message DeleteFileObjectReq {
+  string object_name = 1;
+  string bucket_name = 2;
+}
+
+message DeleteFileObjectResp {
+  bool success = 1;
+  optional common.Error error = 2;
 }

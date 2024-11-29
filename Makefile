@@ -11,4 +11,4 @@ lint:
 	$(DOCKER_BUF) lint
 
 update:
-	$(DOCKER_BUF) dep update
+	$(DOCKER_BUF) mod update

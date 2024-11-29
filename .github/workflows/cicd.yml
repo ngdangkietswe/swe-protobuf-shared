@@ -27,17 +27,23 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-m2
 
-      - name: Install make and dependencies
+      - name: Install make (if not cached)
         run: |
-          sudo apt-get update
-          sudo apt-get install make
+          if ! command -v make &> /dev/null; then
+            echo "Installing make..."
+            sudo apt-get update
+            sudo apt-get install -y make
+          else
+            echo "Make is already installed and cached."
+          fi
 
-      - name: Run make gen-java
-        run: |
-          make gen-java
+      - name: Generate Java Code
+        run: make gen-java
 
-      - name: Run make gen-go
+      - name: Generate Go Code
         run: |
+          make update
+          make lint
           make gen-go
 
       - name: Commit and push changes
