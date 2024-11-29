@@ -30,5 +30,3 @@ build/
 
 ### VS Code ###
 .vscode/
-
-proto/google

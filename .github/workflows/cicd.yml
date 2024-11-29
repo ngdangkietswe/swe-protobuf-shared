@@ -35,20 +35,12 @@ jobs:
           curl -sSL https://github.com/bufbuild/buf/releases/download/v1.20.0/buf-Linux-x86_64 -o /usr/local/bin/buf
           chmod +x /usr/local/bin/buf
 
-      - name: Update Buf
-        run: buf mod update
-
-      #      - name: Lint Protobuf files
-      #        run: buf lint
-
-      - name: Build code with Buf
-        run: buf build
-
-      - name: Generate code with Buf
-        run: buf generate --template buf.gen.yaml
-
-      - name: Build the project
-        run: mvn -B package --file pom.xml
+      - name: Generate files with Buf
+        run: |
+          buf mod update
+          buf lint
+          buf build
+          buf generate --template buf.gen.yaml --verbose
 
   commit-and-push:
     needs: build-and-test
