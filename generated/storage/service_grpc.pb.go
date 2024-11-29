@@ -19,8 +19,9 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	StorageService_GetPresignedURL_FullMethodName = "/storage.StorageService/GetPresignedURL"
-	StorageService_ListFileObject_FullMethodName  = "/storage.StorageService/ListFileObject"
+	StorageService_GetPresignedURL_FullMethodName  = "/storage.StorageService/GetPresignedURL"
+	StorageService_ListFileObject_FullMethodName   = "/storage.StorageService/ListFileObject"
+	StorageService_DeleteFileObject_FullMethodName = "/storage.StorageService/DeleteFileObject"
 )
 
 // StorageServiceClient is the client API for StorageService service.
@@ -29,6 +30,7 @@ const (
 type StorageServiceClient interface {
 	GetPresignedURL(ctx context.Context, in *PresignedURLReq, opts ...grpc.CallOption) (*PresignedURLResp, error)
 	ListFileObject(ctx context.Context, in *ListFileObjectReq, opts ...grpc.CallOption) (*ListFileObjectResp, error)
+	DeleteFileObject(ctx context.Context, in *DeleteFileObjectReq, opts ...grpc.CallOption) (*DeleteFileObjectResp, error)
 }
 
 type storageServiceClient struct {
@@ -59,12 +61,23 @@ func (c *storageServiceClient) ListFileObject(ctx context.Context, in *ListFileO
 	return out, nil
 }
 
+func (c *storageServiceClient) DeleteFileObject(ctx context.Context, in *DeleteFileObjectReq, opts ...grpc.CallOption) (*DeleteFileObjectResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DeleteFileObjectResp)
+	err := c.cc.Invoke(ctx, StorageService_DeleteFileObject_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // StorageServiceServer is the server API for StorageService service.
 // All implementations must embed UnimplementedStorageServiceServer
 // for forward compatibility.
 type StorageServiceServer interface {
 	GetPresignedURL(context.Context, *PresignedURLReq) (*PresignedURLResp, error)
 	ListFileObject(context.Context, *ListFileObjectReq) (*ListFileObjectResp, error)
+	DeleteFileObject(context.Context, *DeleteFileObjectReq) (*DeleteFileObjectResp, error)
 	mustEmbedUnimplementedStorageServiceServer()
 }
 
@@ -80,6 +93,9 @@ func (UnimplementedStorageServiceServer) GetPresignedURL(context.Context, *Presi
 }
 func (UnimplementedStorageServiceServer) ListFileObject(context.Context, *ListFileObjectReq) (*ListFileObjectResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListFileObject not implemented")
+}
+func (UnimplementedStorageServiceServer) DeleteFileObject(context.Context, *DeleteFileObjectReq) (*DeleteFileObjectResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteFileObject not implemented")
 }
 func (UnimplementedStorageServiceServer) mustEmbedUnimplementedStorageServiceServer() {}
 func (UnimplementedStorageServiceServer) testEmbeddedByValue()                        {}
@@ -138,6 +154,24 @@ func _StorageService_ListFileObject_Handler(srv interface{}, ctx context.Context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _StorageService_DeleteFileObject_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteFileObjectReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StorageServiceServer).DeleteFileObject(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: StorageService_DeleteFileObject_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StorageServiceServer).DeleteFileObject(ctx, req.(*DeleteFileObjectReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // StorageService_ServiceDesc is the grpc.ServiceDesc for StorageService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -152,6 +186,10 @@ var StorageService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListFileObject",
 			Handler:    _StorageService_ListFileObject_Handler,
+		},
+		{
+			MethodName: "DeleteFileObject",
+			Handler:    _StorageService_DeleteFileObject_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

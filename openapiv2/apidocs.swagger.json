@@ -118,7 +118,39 @@
         ]
       }
     },
-    "/api/v1/storage/list-file-object": {
+    "/api/v1/storage/file/object/delete": {
+      "post": {
+        "operationId": "StorageService_DeleteFileObject",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/storageDeleteFileObjectResp"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/storageDeleteFileObjectReq"
+            }
+          }
+        ],
+        "tags": [
+          "StorageService"
+        ]
+      }
+    },
+    "/api/v1/storage/file/objects": {
       "post": {
         "operationId": "StorageService_ListFileObject",
         "responses": {
@@ -493,6 +525,28 @@
         }
       },
       "additionalProperties": {}
+    },
+    "storageDeleteFileObjectReq": {
+      "type": "object",
+      "properties": {
+        "object_name": {
+          "type": "string"
+        },
+        "bucket_name": {
+          "type": "string"
+        }
+      }
+    },
+    "storageDeleteFileObjectResp": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "error": {
+          "$ref": "#/definitions/commonError"
+        }
+      }
     },
     "storageFileObject": {
       "type": "object",
