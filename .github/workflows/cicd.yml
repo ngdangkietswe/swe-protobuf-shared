@@ -41,8 +41,11 @@ jobs:
       #      - name: Lint Protobuf files
       #        run: buf lint
 
+      - name: Build code with Buf
+        run: buf build
+
       - name: Generate code with Buf
-        run: buf generate
+        run: buf generate --template buf.gen.yaml
 
       - name: Build the project
         run: mvn -B package --file pom.xml
