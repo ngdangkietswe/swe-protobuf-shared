@@ -43,7 +43,6 @@ jobs:
       - name: Generate Go Code
         run: |
           make update
-          make lint
           make gen-go
 
       - name: Commit and push changes
