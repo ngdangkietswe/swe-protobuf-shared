@@ -186,7 +186,7 @@
                 </executions>
             </plugin>
         </plugins>
-        <finalName>ndk-protobuf-shared</finalName>
+        <finalName>swe-protobuf-shared</finalName>
     </build>
 
 </project>
