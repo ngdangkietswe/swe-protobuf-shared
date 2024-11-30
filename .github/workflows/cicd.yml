@@ -37,8 +37,8 @@ jobs:
             echo "Make is already installed and cached."
           fi
 
-      - name: Generate Java Code
-        run: make gen-java
+      - name: Generate Java Code and Publish Dependencies
+        run: mvn -T 1C clean install deploy -Dmaven.test.skip -DskipTests
 
       - name: Generate Go Code
         run: |
