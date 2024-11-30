@@ -8,6 +8,7 @@ This repository contains the shared protobuf files for the SWE project.
 - [x] [Make](https://www.gnu.org/software/make/)
 - [x] [Java](https://www.java.com/en/)
 - [x] [Go](https://golang.org/)
+- [x] [Github Actions](https://docs.github.com/en/actions)
 
 ## Generate code
 
