@@ -33,12 +33,12 @@
     </scm>
     <distributionManagement>
         <repository>
-            <id>swe-protobuf-shared</id>
-            <url>https://github.com/ngdangkietswe/swe-protobuf-shared/releases</url>
+            <id>github</id>
+            <url>https://github.com/ngdangkietswe/swe-protobuf-shared</url>
         </repository>
         <snapshotRepository>
-            <id>swe-protobuf-shared</id>
-            <url>https://github.com/ngdangkietswe/swe-protobuf-shared/snapshots</url>
+            <id>github</id>
+            <url>https://github.com/ngdangkietswe/swe-protobuf-shared</url>
         </snapshotRepository>
     </distributionManagement>
     <properties>
