@@ -24,9 +24,15 @@ service StorageService {
       body: "*"
     };
   }
-  rpc DeleteFileObject (DeleteFileObjectReq) returns (DeleteFileObjectResp) {
+  rpc DeleteFileObject (DeleteFileObjectReq) returns (common.EmptyResp) {
     option (google.api.http) = {
       post: "/api/v1/storage/file/object/delete"
+      body: "*"
+    };
+  }
+  rpc BatchDeleteFileObject (BatchDeleteFileObjectReq) returns (common.EmptyResp) {
+    option (google.api.http) = {
+      post: "/api/v1/storage/file/object/batch-delete"
       body: "*"
     };
   }
@@ -68,7 +74,6 @@ message DeleteFileObjectReq {
   string bucket_name = 2;
 }
 
-message DeleteFileObjectResp {
-  bool success = 1;
-  optional common.Error error = 2;
+message BatchDeleteFileObjectReq {
+  repeated DeleteFileObjectReq delete_file_objects = 1;
 }
