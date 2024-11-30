@@ -706,55 +706,54 @@ var _ interface {
 	ErrorName() string
 } = DeleteFileObjectReqValidationError{}
 
-// Validate checks the field values on DeleteFileObjectResp with the rules
+// Validate checks the field values on BatchDeleteFileObjectReq with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, the first error encountered is returned, or nil if there are no violations.
-func (m *DeleteFileObjectResp) Validate() error {
+func (m *BatchDeleteFileObjectReq) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on DeleteFileObjectResp with the rules
-// defined in the proto definition for this message. If any rules are
+// ValidateAll checks the field values on BatchDeleteFileObjectReq with the
+// rules defined in the proto definition for this message. If any rules are
 // violated, the result is a list of violation errors wrapped in
-// DeleteFileObjectRespMultiError, or nil if none found.
-func (m *DeleteFileObjectResp) ValidateAll() error {
+// BatchDeleteFileObjectReqMultiError, or nil if none found.
+func (m *BatchDeleteFileObjectReq) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *DeleteFileObjectResp) validate(all bool) error {
+func (m *BatchDeleteFileObjectReq) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
 
 	var errors []error
 
-	// no validation rules for Success
-
-	if m.Error != nil {
+	for idx, item := range m.GetDeleteFileObjects() {
+		_, _ = idx, item
 
 		if all {
-			switch v := interface{}(m.GetError()).(type) {
+			switch v := interface{}(item).(type) {
 			case interface{ ValidateAll() error }:
 				if err := v.ValidateAll(); err != nil {
-					errors = append(errors, DeleteFileObjectRespValidationError{
-						field:  "Error",
+					errors = append(errors, BatchDeleteFileObjectReqValidationError{
+						field:  fmt.Sprintf("DeleteFileObjects[%v]", idx),
 						reason: "embedded message failed validation",
 						cause:  err,
 					})
 				}
 			case interface{ Validate() error }:
 				if err := v.Validate(); err != nil {
-					errors = append(errors, DeleteFileObjectRespValidationError{
-						field:  "Error",
+					errors = append(errors, BatchDeleteFileObjectReqValidationError{
+						field:  fmt.Sprintf("DeleteFileObjects[%v]", idx),
 						reason: "embedded message failed validation",
 						cause:  err,
 					})
 				}
 			}
-		} else if v, ok := interface{}(m.GetError()).(interface{ Validate() error }); ok {
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
 			if err := v.Validate(); err != nil {
-				return DeleteFileObjectRespValidationError{
-					field:  "Error",
+				return BatchDeleteFileObjectReqValidationError{
+					field:  fmt.Sprintf("DeleteFileObjects[%v]", idx),
 					reason: "embedded message failed validation",
 					cause:  err,
 				}
@@ -764,19 +763,19 @@ func (m *DeleteFileObjectResp) validate(all bool) error {
 	}
 
 	if len(errors) > 0 {
-		return DeleteFileObjectRespMultiError(errors)
+		return BatchDeleteFileObjectReqMultiError(errors)
 	}
 
 	return nil
 }
 
-// DeleteFileObjectRespMultiError is an error wrapping multiple validation
-// errors returned by DeleteFileObjectResp.ValidateAll() if the designated
+// BatchDeleteFileObjectReqMultiError is an error wrapping multiple validation
+// errors returned by BatchDeleteFileObjectReq.ValidateAll() if the designated
 // constraints aren't met.
-type DeleteFileObjectRespMultiError []error
+type BatchDeleteFileObjectReqMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m DeleteFileObjectRespMultiError) Error() string {
+func (m BatchDeleteFileObjectReqMultiError) Error() string {
 	var msgs []string
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -785,11 +784,11 @@ func (m DeleteFileObjectRespMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m DeleteFileObjectRespMultiError) AllErrors() []error { return m }
+func (m BatchDeleteFileObjectReqMultiError) AllErrors() []error { return m }
 
-// DeleteFileObjectRespValidationError is the validation error returned by
-// DeleteFileObjectResp.Validate if the designated constraints aren't met.
-type DeleteFileObjectRespValidationError struct {
+// BatchDeleteFileObjectReqValidationError is the validation error returned by
+// BatchDeleteFileObjectReq.Validate if the designated constraints aren't met.
+type BatchDeleteFileObjectReqValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -797,24 +796,24 @@ type DeleteFileObjectRespValidationError struct {
 }
 
 // Field function returns field value.
-func (e DeleteFileObjectRespValidationError) Field() string { return e.field }
+func (e BatchDeleteFileObjectReqValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e DeleteFileObjectRespValidationError) Reason() string { return e.reason }
+func (e BatchDeleteFileObjectReqValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e DeleteFileObjectRespValidationError) Cause() error { return e.cause }
+func (e BatchDeleteFileObjectReqValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e DeleteFileObjectRespValidationError) Key() bool { return e.key }
+func (e BatchDeleteFileObjectReqValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e DeleteFileObjectRespValidationError) ErrorName() string {
-	return "DeleteFileObjectRespValidationError"
+func (e BatchDeleteFileObjectReqValidationError) ErrorName() string {
+	return "BatchDeleteFileObjectReqValidationError"
 }
 
 // Error satisfies the builtin error interface
-func (e DeleteFileObjectRespValidationError) Error() string {
+func (e BatchDeleteFileObjectReqValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -826,14 +825,14 @@ func (e DeleteFileObjectRespValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sDeleteFileObjectResp.%s: %s%s",
+		"invalid %sBatchDeleteFileObjectReq.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = DeleteFileObjectRespValidationError{}
+var _ error = BatchDeleteFileObjectReqValidationError{}
 
 var _ interface {
 	Field() string
@@ -841,7 +840,7 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = DeleteFileObjectRespValidationError{}
+} = BatchDeleteFileObjectReqValidationError{}
 
 // Validate checks the field values on ListFileObjectResp_Data with the rules
 // defined in the proto definition for this message. If any rules are

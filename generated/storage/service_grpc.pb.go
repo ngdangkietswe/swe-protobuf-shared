@@ -8,6 +8,7 @@ package storage
 
 import (
 	context "context"
+	common "github.com/ngdangkietswe/swe-protobuf-shared/generated/common"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -19,9 +20,10 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	StorageService_GetPresignedURL_FullMethodName  = "/storage.StorageService/GetPresignedURL"
-	StorageService_ListFileObject_FullMethodName   = "/storage.StorageService/ListFileObject"
-	StorageService_DeleteFileObject_FullMethodName = "/storage.StorageService/DeleteFileObject"
+	StorageService_GetPresignedURL_FullMethodName       = "/storage.StorageService/GetPresignedURL"
+	StorageService_ListFileObject_FullMethodName        = "/storage.StorageService/ListFileObject"
+	StorageService_DeleteFileObject_FullMethodName      = "/storage.StorageService/DeleteFileObject"
+	StorageService_BatchDeleteFileObject_FullMethodName = "/storage.StorageService/BatchDeleteFileObject"
 )
 
 // StorageServiceClient is the client API for StorageService service.
@@ -30,7 +32,8 @@ const (
 type StorageServiceClient interface {
 	GetPresignedURL(ctx context.Context, in *PresignedURLReq, opts ...grpc.CallOption) (*PresignedURLResp, error)
 	ListFileObject(ctx context.Context, in *ListFileObjectReq, opts ...grpc.CallOption) (*ListFileObjectResp, error)
-	DeleteFileObject(ctx context.Context, in *DeleteFileObjectReq, opts ...grpc.CallOption) (*DeleteFileObjectResp, error)
+	DeleteFileObject(ctx context.Context, in *DeleteFileObjectReq, opts ...grpc.CallOption) (*common.EmptyResp, error)
+	BatchDeleteFileObject(ctx context.Context, in *BatchDeleteFileObjectReq, opts ...grpc.CallOption) (*common.EmptyResp, error)
 }
 
 type storageServiceClient struct {
@@ -61,10 +64,20 @@ func (c *storageServiceClient) ListFileObject(ctx context.Context, in *ListFileO
 	return out, nil
 }
 
-func (c *storageServiceClient) DeleteFileObject(ctx context.Context, in *DeleteFileObjectReq, opts ...grpc.CallOption) (*DeleteFileObjectResp, error) {
+func (c *storageServiceClient) DeleteFileObject(ctx context.Context, in *DeleteFileObjectReq, opts ...grpc.CallOption) (*common.EmptyResp, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(DeleteFileObjectResp)
+	out := new(common.EmptyResp)
 	err := c.cc.Invoke(ctx, StorageService_DeleteFileObject_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *storageServiceClient) BatchDeleteFileObject(ctx context.Context, in *BatchDeleteFileObjectReq, opts ...grpc.CallOption) (*common.EmptyResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(common.EmptyResp)
+	err := c.cc.Invoke(ctx, StorageService_BatchDeleteFileObject_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -77,7 +90,8 @@ func (c *storageServiceClient) DeleteFileObject(ctx context.Context, in *DeleteF
 type StorageServiceServer interface {
 	GetPresignedURL(context.Context, *PresignedURLReq) (*PresignedURLResp, error)
 	ListFileObject(context.Context, *ListFileObjectReq) (*ListFileObjectResp, error)
-	DeleteFileObject(context.Context, *DeleteFileObjectReq) (*DeleteFileObjectResp, error)
+	DeleteFileObject(context.Context, *DeleteFileObjectReq) (*common.EmptyResp, error)
+	BatchDeleteFileObject(context.Context, *BatchDeleteFileObjectReq) (*common.EmptyResp, error)
 	mustEmbedUnimplementedStorageServiceServer()
 }
 
@@ -94,8 +108,11 @@ func (UnimplementedStorageServiceServer) GetPresignedURL(context.Context, *Presi
 func (UnimplementedStorageServiceServer) ListFileObject(context.Context, *ListFileObjectReq) (*ListFileObjectResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListFileObject not implemented")
 }
-func (UnimplementedStorageServiceServer) DeleteFileObject(context.Context, *DeleteFileObjectReq) (*DeleteFileObjectResp, error) {
+func (UnimplementedStorageServiceServer) DeleteFileObject(context.Context, *DeleteFileObjectReq) (*common.EmptyResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteFileObject not implemented")
+}
+func (UnimplementedStorageServiceServer) BatchDeleteFileObject(context.Context, *BatchDeleteFileObjectReq) (*common.EmptyResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method BatchDeleteFileObject not implemented")
 }
 func (UnimplementedStorageServiceServer) mustEmbedUnimplementedStorageServiceServer() {}
 func (UnimplementedStorageServiceServer) testEmbeddedByValue()                        {}
@@ -172,6 +189,24 @@ func _StorageService_DeleteFileObject_Handler(srv interface{}, ctx context.Conte
 	return interceptor(ctx, in, info, handler)
 }
 
+func _StorageService_BatchDeleteFileObject_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(BatchDeleteFileObjectReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StorageServiceServer).BatchDeleteFileObject(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: StorageService_BatchDeleteFileObject_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StorageServiceServer).BatchDeleteFileObject(ctx, req.(*BatchDeleteFileObjectReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // StorageService_ServiceDesc is the grpc.ServiceDesc for StorageService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -190,6 +225,10 @@ var StorageService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeleteFileObject",
 			Handler:    _StorageService_DeleteFileObject_Handler,
+		},
+		{
+			MethodName: "BatchDeleteFileObject",
+			Handler:    _StorageService_BatchDeleteFileObject_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
