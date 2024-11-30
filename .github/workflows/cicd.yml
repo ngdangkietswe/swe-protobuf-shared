@@ -3,7 +3,7 @@ name: Java CI/CD Pipeline
 on:
   push:
     branches:
-      - maim
+      - main
     paths-ignore:
       - '**/*.md'
   pull_request:
