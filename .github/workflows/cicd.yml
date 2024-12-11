@@ -12,8 +12,17 @@ on:
 
 jobs:
   build-test-commit:
+    name: Build, Test, and Commit Changes
     runs-on: ubuntu-latest
+
+    outputs:
+      DURATION: ${{ steps.build_duration.outputs.duration }}
+      COMMIT_SHA: ${{ steps.commit_sha.outputs.sha_short }}
+
     steps:
+      - name: Calculate build start time
+        run: echo "START_TIME=$(date +%s)" >> $GITHUB_ENV
+
       - name: Check out repository
         uses: actions/checkout@v2
 
@@ -44,9 +53,9 @@ jobs:
       - name: Configure Maven for GitHub Packages
         run: |
           mkdir -p ~/.m2
-          echo '<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0" 
+          echo '<settings xmlns="https://maven.apache.org/SETTINGS/1.0.0" 
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 
+          xsi:schemaLocation="https://maven.apache.org/SETTINGS/1.0.0 
           https://maven.apache.org/xsd/settings-1.0.0.xsd">
             <servers>
               <server>
@@ -64,6 +73,10 @@ jobs:
         run: |
           make update
           make gen-go
+
+      - name: Generate SHA short
+        id: commit_sha
+        run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
 
       - name: Commit and push changes
         run: |
@@ -89,3 +102,79 @@ jobs:
             https://api.github.com/repos/ngdangkietswe/swe-grpc-gateway/dispatches \
             -H "Authorization: Bearer ${{ secrets.PAT }}" \
             -d '{"event_type": "trigger-swe-grpc-gateway"}'
+
+      - name: Calculate build duration
+        id: build_duration
+        run: |
+          START_TIME=${{ env.START_TIME }}
+          END_TIME=$(date +%s)
+          DURATION=$((END_TIME - START_TIME))
+          echo "duration=$DURATION" >> $GITHUB_OUTPUT
+          echo "✅ Build took $DURATION seconds."
+
+  push-notification-to-slack:
+    name: Slack Notification
+    needs: build-test-commit
+    runs-on: ubuntu-latest
+
+    env:
+      SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+    steps:
+      - name: Push Notification to Slack
+        uses: slackapi/slack-github-action@v1.26.0
+        with:
+          payload: |
+            {
+              "blocks": [
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "*:white_check_mark: Succeeded GitHub Actions*"
+                  }
+                },
+                {
+                  "type": "section",
+                  "fields": [
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Repo*\n<https://github.com/${{ github.repository }}|${{ github.repository }}>"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Commit*\n<${{ github.event.head_commit.url }}|${{ needs.build-test-commit.outputs.COMMIT_SHA }}>"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Author*\n${{ github.event.head_commit.author.name }}"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Job*\n`${{ github.job }}`"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Event Name*\n`${{ github.event_name }}`"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Workflow*\n`${{ github.workflow }}`"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Build Logs*\n<${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Logs>"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Took*\n`${{ needs.build-test-commit.outputs.DURATION }} sec`"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Message*\n${{ github.event.head_commit.message }}"
+                    }
+                  ]
+                }
+              ]
+            }
