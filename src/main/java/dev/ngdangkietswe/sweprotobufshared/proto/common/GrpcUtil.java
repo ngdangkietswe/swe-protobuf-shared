@@ -22,6 +22,13 @@ public class GrpcUtil {
 
     private static final ObjectMapper mapper = new ObjectMapper();
 
+    private static final String ASC = "ASC";
+    private static final String DESC = "DESC";
+    private static final int DEFAULT_PAGE = 0;
+    private static final int DEFAULT_SIZE = 10;
+    private static final int MAX_SIZE = 100;
+    private static final String DEFAULT_SORT = "updated_at";
+
     public static Error asError(Exception exception) {
         Error.Builder builder = Error.newBuilder().setMessage(getExceptionMessage(exception));
 
@@ -69,6 +76,16 @@ public class GrpcUtil {
         }
 
         return builder.build();
+    }
+
+    public static Pageable normalize(Pageable pageable) {
+        return Pageable.newBuilder()
+                .setPage(pageable.getPage() > 0 ? pageable.getPage() - 1 : DEFAULT_PAGE)
+                .setSize(pageable.getSize() < 1 ? DEFAULT_SIZE : Math.min(pageable.getSize(), MAX_SIZE))
+                .setSort(StringUtils.isNotEmpty(pageable.getSort()) ? pageable.getSort() : DEFAULT_SORT)
+                .setDirection(pageable.getDirection().equalsIgnoreCase(ASC) ? ASC : DESC)
+                .setUnPaged(pageable.getUnPaged())
+                .build();
     }
 
     public static long calculateOffset(int page, int size) {

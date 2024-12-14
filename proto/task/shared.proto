@@ -5,17 +5,36 @@ option java_multiple_files = true;
 option java_package = "dev.ngdangkietswe.sweprotobufshared.task.protobuf";
 option java_outer_classname = "TaskProtobuf";
 
+import "common/shared.proto";
+
 enum Status {
   STATUS_UNSPECIFIED = 0;
-  STATUS_PENDING = 1;
-  STATUS_PROCESSING = 2;
-  STATUS_COMPLETED = 3;
-  STATUS_FAILED = 4;
+  STATUS_OPEN = 1;
+  STATUS_IN_PROGRESS = 2;
+  STATUS_IN_REVIEW = 3;
+  STATUS_DONE = 4;
+  STATUS_CANCELED = 5;
 }
 
 message Task {
-  optional string id = 1;
-  string name = 2;
+  string id = 1;
+  string title = 2;
   string description = 3;
   Status status = 4;
+  common.User reporter = 5;
+  common.User assignee = 6;
+  common.Audit audit = 7;
+}
+
+message Comment {
+  string id = 1;
+  string content = 2;
+  message Task {
+    string id = 1;
+    string title = 2;
+  }
+  Task task = 3;
+  Comment parent = 4;
+  repeated Comment children = 5;
+  common.Audit audit = 6;
 }

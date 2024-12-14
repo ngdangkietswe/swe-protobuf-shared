@@ -53,3 +53,18 @@ message EmptyResp {
   bool success = 1;
   optional Error error = 2;
 }
+
+message User {
+  string id = 1;
+  string email = 2;
+}
+
+message Audit {
+  string created_at = 1;
+  string updated_at = 2;
+  bool is_deleted = 3;
+  optional string deleted_at = 4;
+  User created_by = 5;
+  User updated_by = 6;
+  optional User deleted_by = 7;
+}
