@@ -56,14 +56,99 @@ func (m *Task) validate(all bool) error {
 
 	var errors []error
 
-	// no validation rules for Name
+	// no validation rules for Id
+
+	// no validation rules for Title
 
 	// no validation rules for Description
 
 	// no validation rules for Status
 
-	if m.Id != nil {
-		// no validation rules for Id
+	if all {
+		switch v := interface{}(m.GetReporter()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, TaskValidationError{
+					field:  "Reporter",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, TaskValidationError{
+					field:  "Reporter",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetReporter()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return TaskValidationError{
+				field:  "Reporter",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if all {
+		switch v := interface{}(m.GetAssignee()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, TaskValidationError{
+					field:  "Assignee",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, TaskValidationError{
+					field:  "Assignee",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetAssignee()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return TaskValidationError{
+				field:  "Assignee",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if all {
+		switch v := interface{}(m.GetAudit()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, TaskValidationError{
+					field:  "Audit",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, TaskValidationError{
+					field:  "Audit",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetAudit()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return TaskValidationError{
+				field:  "Audit",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
 	}
 
 	if len(errors) > 0 {
@@ -142,3 +227,329 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = TaskValidationError{}
+
+// Validate checks the field values on Comment with the rules defined in the
+// proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *Comment) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on Comment with the rules defined in the
+// proto definition for this message. If any rules are violated, the result is
+// a list of violation errors wrapped in CommentMultiError, or nil if none found.
+func (m *Comment) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *Comment) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Id
+
+	// no validation rules for Content
+
+	if all {
+		switch v := interface{}(m.GetTask()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, CommentValidationError{
+					field:  "Task",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, CommentValidationError{
+					field:  "Task",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetTask()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return CommentValidationError{
+				field:  "Task",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if all {
+		switch v := interface{}(m.GetParent()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, CommentValidationError{
+					field:  "Parent",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, CommentValidationError{
+					field:  "Parent",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetParent()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return CommentValidationError{
+				field:  "Parent",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	for idx, item := range m.GetChildren() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, CommentValidationError{
+						field:  fmt.Sprintf("Children[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, CommentValidationError{
+						field:  fmt.Sprintf("Children[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return CommentValidationError{
+					field:  fmt.Sprintf("Children[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	if all {
+		switch v := interface{}(m.GetAudit()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, CommentValidationError{
+					field:  "Audit",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, CommentValidationError{
+					field:  "Audit",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetAudit()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return CommentValidationError{
+				field:  "Audit",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if len(errors) > 0 {
+		return CommentMultiError(errors)
+	}
+
+	return nil
+}
+
+// CommentMultiError is an error wrapping multiple validation errors returned
+// by Comment.ValidateAll() if the designated constraints aren't met.
+type CommentMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m CommentMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m CommentMultiError) AllErrors() []error { return m }
+
+// CommentValidationError is the validation error returned by Comment.Validate
+// if the designated constraints aren't met.
+type CommentValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e CommentValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e CommentValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e CommentValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e CommentValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e CommentValidationError) ErrorName() string { return "CommentValidationError" }
+
+// Error satisfies the builtin error interface
+func (e CommentValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sComment.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = CommentValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = CommentValidationError{}
+
+// Validate checks the field values on Comment_Task with the rules defined in
+// the proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *Comment_Task) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on Comment_Task with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in Comment_TaskMultiError, or
+// nil if none found.
+func (m *Comment_Task) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *Comment_Task) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Id
+
+	// no validation rules for Title
+
+	if len(errors) > 0 {
+		return Comment_TaskMultiError(errors)
+	}
+
+	return nil
+}
+
+// Comment_TaskMultiError is an error wrapping multiple validation errors
+// returned by Comment_Task.ValidateAll() if the designated constraints aren't met.
+type Comment_TaskMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m Comment_TaskMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m Comment_TaskMultiError) AllErrors() []error { return m }
+
+// Comment_TaskValidationError is the validation error returned by
+// Comment_Task.Validate if the designated constraints aren't met.
+type Comment_TaskValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e Comment_TaskValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e Comment_TaskValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e Comment_TaskValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e Comment_TaskValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e Comment_TaskValidationError) ErrorName() string { return "Comment_TaskValidationError" }
+
+// Error satisfies the builtin error interface
+func (e Comment_TaskValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sComment_Task.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = Comment_TaskValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = Comment_TaskValidationError{}
