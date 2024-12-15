@@ -4,7 +4,7 @@ package task;
 option go_package = "proto/task";
 
 option java_multiple_files = true;
-option java_package = "dev.ngdangkietswe.sweprotobufshared.comment.service";
+option java_package = "dev.ngdangkietswe.sweprotobufshared.task";
 option java_outer_classname = "CommentServiceAPI";
 
 import "google/api/annotations.proto";
