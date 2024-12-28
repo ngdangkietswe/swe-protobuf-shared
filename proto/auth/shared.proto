@@ -46,3 +46,23 @@ message EnableOrDisable2FAResp {
   optional common.Error error = 2;
   optional string qr_code_image_url = 3;
 }
+
+// PERMISSION
+message Action {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+}
+
+message Resource {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+}
+
+message Permission {
+  string id = 1;
+  string description = 2;
+  Action action = 3;
+  Resource resource = 4;
+}

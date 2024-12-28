@@ -1,0 +1,66 @@
+syntax = "proto3";
+package auth;
+
+option go_package = "proto/auth";
+
+option java_multiple_files = true;
+option java_package = "dev.ngdangkietswe.sweprotobufshared.auth.service";
+option java_outer_classname = "PermissionServiceAPI";
+
+import "google/api/annotations.proto";
+import "common/shared.proto";
+import "auth/shared.proto";
+
+service PermissionService {
+  rpc AssignPermissions (AssignPermissionsReq) returns (common.EmptyResp) {
+    option (google.api.http) = {
+      post: "/api/v1/permissions/assign"
+      body: "*"
+    };
+  }
+
+  rpc ListPermissions (ListPermissionsReq) returns (ListPermissionsResp) {
+    option (google.api.http) = {
+      get: "/api/v1/permissions"
+    };
+  }
+
+
+  rpc UpsertPermission (UpsertPermissionReq) returns (common.UpsertResp) {
+    option (google.api.http) = {
+      post: "/api/v1/permissions"
+      body: "*"
+    };
+  }
+}
+
+message ListPermissionsReq {
+  common.Pageable pageable = 1;
+  optional string action_id = 2;
+  optional string resource_id = 3;
+  optional string search = 4;
+}
+
+message ListPermissionsResp {
+  message Data {
+    repeated Permission permissions = 1;
+    common.PageMetaData page_meta_data = 2;
+  }
+  bool success = 1;
+  oneof resp {
+    Data data = 2;
+    common.Error error = 3;
+  }
+}
+
+message AssignPermissionsReq {
+  string user_id = 1;
+  repeated string permission_ids = 2;
+}
+
+message UpsertPermissionReq {
+  optional string id = 1;
+  string action_id = 2;
+  string resource_id = 3;
+  string description = 4;
+}
