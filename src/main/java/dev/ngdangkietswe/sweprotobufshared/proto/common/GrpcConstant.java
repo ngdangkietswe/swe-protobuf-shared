@@ -19,5 +19,7 @@ public class GrpcConstant {
 
     public static final Metadata.Key<String> AUTHORIZATION_METADATA_KEY = Metadata.Key
             .of(HttpHeaders.AUTHORIZATION, ASCII_STRING_MARSHALLER);
+    public static final Metadata.Key<String> GRPC_USER_PERMISSION_METADATA_KEY = Metadata.Key
+            .of("grpc-user-permission", ASCII_STRING_MARSHALLER);
     public static final Context.Key<SweGrpcPrincipal> PRINCIPAL_CONTEXT_KEY = Context.key(HttpHeaders.AUTHORIZATION);
 }
