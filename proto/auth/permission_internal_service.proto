@@ -1,0 +1,26 @@
+syntax = "proto3";
+package auth;
+
+option go_package = "proto/auth";
+
+option java_multiple_files = true;
+option java_package = "dev.ngdangkietswe.sweprotobufshared.auth.service";
+option java_outer_classname = "PermissionInternalServiceAPI";
+
+import "common/shared.proto";
+import "auth/shared.proto";
+
+service PermissionInternalService {
+  rpc PermissionOfUser (common.IdReq) returns (PermissionOfUserResp);
+}
+
+message PermissionOfUserResp {
+  message Data {
+    repeated Permission permissions = 1;
+  }
+  bool success = 1;
+  oneof resp {
+    Data data = 2;
+    common.Error error = 3;
+  }
+}

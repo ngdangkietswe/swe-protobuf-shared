@@ -25,7 +25,6 @@ service PermissionService {
     };
   }
 
-
   rpc UpsertPermission (UpsertPermissionReq) returns (common.UpsertResp) {
     option (google.api.http) = {
       post: "/api/v1/permissions"
