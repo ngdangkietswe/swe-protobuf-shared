@@ -23,6 +23,7 @@ const (
 	AuthService_RegisterUser_FullMethodName       = "/auth.AuthService/RegisterUser"
 	AuthService_Login_FullMethodName              = "/auth.AuthService/Login"
 	AuthService_EnableOrDisable2FA_FullMethodName = "/auth.AuthService/EnableOrDisable2FA"
+	AuthService_ChangePassword_FullMethodName     = "/auth.AuthService/ChangePassword"
 )
 
 // AuthServiceClient is the client API for AuthService service.
@@ -35,6 +36,8 @@ type AuthServiceClient interface {
 	Login(ctx context.Context, in *LoginReq, opts ...grpc.CallOption) (*LoginResp, error)
 	// TWO FACTOR AUTHENTICATION
 	EnableOrDisable2FA(ctx context.Context, in *EnableOrDisable2FAReq, opts ...grpc.CallOption) (*EnableOrDisable2FAResp, error)
+	// CHANGE PASSWORD
+	ChangePassword(ctx context.Context, in *ChangePasswordReq, opts ...grpc.CallOption) (*common.EmptyResp, error)
 }
 
 type authServiceClient struct {
@@ -75,6 +78,16 @@ func (c *authServiceClient) EnableOrDisable2FA(ctx context.Context, in *EnableOr
 	return out, nil
 }
 
+func (c *authServiceClient) ChangePassword(ctx context.Context, in *ChangePasswordReq, opts ...grpc.CallOption) (*common.EmptyResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(common.EmptyResp)
+	err := c.cc.Invoke(ctx, AuthService_ChangePassword_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AuthServiceServer is the server API for AuthService service.
 // All implementations must embed UnimplementedAuthServiceServer
 // for forward compatibility.
@@ -85,6 +98,8 @@ type AuthServiceServer interface {
 	Login(context.Context, *LoginReq) (*LoginResp, error)
 	// TWO FACTOR AUTHENTICATION
 	EnableOrDisable2FA(context.Context, *EnableOrDisable2FAReq) (*EnableOrDisable2FAResp, error)
+	// CHANGE PASSWORD
+	ChangePassword(context.Context, *ChangePasswordReq) (*common.EmptyResp, error)
 	mustEmbedUnimplementedAuthServiceServer()
 }
 
@@ -103,6 +118,9 @@ func (UnimplementedAuthServiceServer) Login(context.Context, *LoginReq) (*LoginR
 }
 func (UnimplementedAuthServiceServer) EnableOrDisable2FA(context.Context, *EnableOrDisable2FAReq) (*EnableOrDisable2FAResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method EnableOrDisable2FA not implemented")
+}
+func (UnimplementedAuthServiceServer) ChangePassword(context.Context, *ChangePasswordReq) (*common.EmptyResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ChangePassword not implemented")
 }
 func (UnimplementedAuthServiceServer) mustEmbedUnimplementedAuthServiceServer() {}
 func (UnimplementedAuthServiceServer) testEmbeddedByValue()                     {}
@@ -179,6 +197,24 @@ func _AuthService_EnableOrDisable2FA_Handler(srv interface{}, ctx context.Contex
 	return interceptor(ctx, in, info, handler)
 }
 
+func _AuthService_ChangePassword_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ChangePasswordReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthServiceServer).ChangePassword(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AuthService_ChangePassword_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthServiceServer).ChangePassword(ctx, req.(*ChangePasswordReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // AuthService_ServiceDesc is the grpc.ServiceDesc for AuthService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -197,6 +233,10 @@ var AuthService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "EnableOrDisable2FA",
 			Handler:    _AuthService_EnableOrDisable2FA_Handler,
+		},
+		{
+			MethodName: "ChangePassword",
+			Handler:    _AuthService_ChangePassword_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -34,3 +34,111 @@ var (
 	_ = anypb.Any{}
 	_ = sort.Sort
 )
+
+// Validate checks the field values on ChangePasswordReq with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// first error encountered is returned, or nil if there are no violations.
+func (m *ChangePasswordReq) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on ChangePasswordReq with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// ChangePasswordReqMultiError, or nil if none found.
+func (m *ChangePasswordReq) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *ChangePasswordReq) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for OldPassword
+
+	// no validation rules for NewPassword
+
+	// no validation rules for ConfirmPassword
+
+	if len(errors) > 0 {
+		return ChangePasswordReqMultiError(errors)
+	}
+
+	return nil
+}
+
+// ChangePasswordReqMultiError is an error wrapping multiple validation errors
+// returned by ChangePasswordReq.ValidateAll() if the designated constraints
+// aren't met.
+type ChangePasswordReqMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m ChangePasswordReqMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m ChangePasswordReqMultiError) AllErrors() []error { return m }
+
+// ChangePasswordReqValidationError is the validation error returned by
+// ChangePasswordReq.Validate if the designated constraints aren't met.
+type ChangePasswordReqValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e ChangePasswordReqValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e ChangePasswordReqValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e ChangePasswordReqValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e ChangePasswordReqValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e ChangePasswordReqValidationError) ErrorName() string {
+	return "ChangePasswordReqValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e ChangePasswordReqValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sChangePasswordReq.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = ChangePasswordReqValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = ChangePasswordReqValidationError{}
