@@ -35,4 +35,18 @@ service AuthService {
       body: "*"
     };
   }
+
+  // CHANGE PASSWORD
+  rpc ChangePassword (ChangePasswordReq) returns (common.EmptyResp) {
+    option (google.api.http) = {
+      post: "/api/v1/auth/change-password"
+      body: "*"
+    };
+  }
+}
+
+message ChangePasswordReq {
+  string oldPassword = 1;
+  string newPassword = 2;
+  string confirmPassword = 3;
 }
