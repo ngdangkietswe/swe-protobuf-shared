@@ -89,6 +89,7 @@ jobs:
             git status
             git add .
             git commit -m "chore: regenerate files"
+            git pull --rebase origin main
             git push origin main
           else
             echo "No changes to commit"
