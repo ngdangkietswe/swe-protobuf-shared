@@ -43,10 +43,36 @@ service AuthService {
       body: "*"
     };
   }
+
+  // FORGOT PASSWORD
+  rpc ForgotPassword (ForgotPasswordReq) returns (common.EmptyResp) {
+    option (google.api.http) = {
+      post: "/api/v1/auth/forgot-password"
+      body: "*"
+    };
+  }
+
+  // RESET PASSWORD
+  rpc ResetPassword (ResetPasswordReq) returns (common.EmptyResp) {
+    option (google.api.http) = {
+      post: "/api/v1/auth/reset-password"
+      body: "*"
+    };
+  }
 }
 
 message ChangePasswordReq {
   string old_password = 1;
+  string new_password = 2;
+  string confirm_password = 3;
+}
+
+message ForgotPasswordReq {
+  string email = 1;
+}
+
+message ResetPasswordReq {
+  string token = 1;
   string new_password = 2;
   string confirm_password = 3;
 }
