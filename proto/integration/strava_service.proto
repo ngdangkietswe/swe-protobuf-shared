@@ -1,0 +1,53 @@
+syntax = "proto3";
+package integration;
+
+option go_package = "proto/strava";
+
+option java_multiple_files = true;
+option java_package = "dev.ngdangkietswe.sweprotobufshared.integration.service";
+option java_outer_classname = "StravaServiceAPI";
+
+import "google/api/annotations.proto";
+import "common/shared.proto";
+import "integration/shared.proto";
+
+service StravaService {
+  rpc IntegrateStravaAccount(IntegrateStravaAccountReq) returns (common.EmptyResp) {
+    option (google.api.http) = {
+      post: "/v1/strava/integrate"
+      body: "*"
+    };
+  }
+
+  rpc GetStravaAccount(GetStravaAccountReq) returns (GetStravaAccountResp) {
+    option (google.api.http) = {
+      get: "/v1/strava/account"
+    };
+  }
+}
+
+message IntegrateStravaAccountReq {
+  string user_id = 1;
+  message Strava {
+    string athlete_id = 1;
+    string username = 2;
+    string first_name = 3;
+    string last_name = 4;
+    string profile = 5;
+    string access_token = 6;
+    string refresh_token = 7;
+    int64 expires_at = 8;
+  }
+}
+
+message GetStravaAccountReq {
+  string user_id = 1;
+}
+
+message GetStravaAccountResp {
+  bool success = 1;
+  oneof resp {
+    StravaAccount strava_account = 2;
+    common.Error error = 3;
+  }
+}

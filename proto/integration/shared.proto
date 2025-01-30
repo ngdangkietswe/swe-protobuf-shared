@@ -1,0 +1,23 @@
+syntax = "proto3";
+package integration;
+
+option java_multiple_files = true;
+option java_package = "dev.ngdangkietswe.sweprotobufshared.integration.protobuf";
+option java_outer_classname = "IntegrationProtobuf";
+
+import "common/shared.proto";
+
+message StravaAccount {
+  string id = 1;
+  string user_id = 2;
+  string access_token = 3;
+  string refresh_token = 4;
+  string expires_at = 5;
+  string token_type = 6;
+  string athlete_id = 7;
+  string username = 8;
+  string first_name = 9;
+  string last_name = 10;
+  string created_at = 11;
+  string updated_at = 12;
+}
