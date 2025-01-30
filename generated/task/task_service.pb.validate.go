@@ -159,7 +159,7 @@ type GetTaskRespMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m GetTaskRespMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -277,7 +277,7 @@ type UpsertTaskReqMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m UpsertTaskReqMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -425,7 +425,7 @@ type ListTaskReqMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m ListTaskReqMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -613,7 +613,7 @@ type ListTaskRespMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m ListTaskRespMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -776,7 +776,7 @@ type ListTaskResp_DataMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m ListTaskResp_DataMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}

@@ -84,7 +84,7 @@ type PageableMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m PageableMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -195,7 +195,7 @@ type PageMetaDataMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m PageMetaDataMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -301,7 +301,7 @@ type ErrorMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m ErrorMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -401,7 +401,7 @@ type IdReqMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m IdReqMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -589,7 +589,7 @@ type UpsertRespMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m UpsertRespMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -723,7 +723,7 @@ type EmptyRespMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m EmptyRespMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -825,7 +825,7 @@ type UserMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m UserMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -1024,7 +1024,7 @@ type AuditMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m AuditMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -1126,7 +1126,7 @@ type UpsertResp_DataMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m UpsertResp_DataMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}

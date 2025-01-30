@@ -77,7 +77,7 @@ type ChangePasswordReqMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m ChangePasswordReqMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -181,7 +181,7 @@ type ForgotPasswordReqMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m ForgotPasswordReqMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -289,7 +289,7 @@ type ResetPasswordReqMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m ResetPasswordReqMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}

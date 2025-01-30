@@ -79,7 +79,7 @@ type PresignedURLReqMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m PresignedURLReqMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -239,7 +239,7 @@ type PresignedURLRespMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m PresignedURLRespMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -343,7 +343,7 @@ type ListFileObjectReqMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m ListFileObjectReqMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -534,7 +534,7 @@ type ListFileObjectRespMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m ListFileObjectRespMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -640,7 +640,7 @@ type DeleteFileObjectReqMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m DeleteFileObjectReqMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -776,7 +776,7 @@ type BatchDeleteFileObjectReqMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m BatchDeleteFileObjectReqMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -912,7 +912,7 @@ type ListFileObjectResp_DataMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m ListFileObjectResp_DataMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}

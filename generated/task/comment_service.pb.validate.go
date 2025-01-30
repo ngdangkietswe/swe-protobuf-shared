@@ -83,7 +83,7 @@ type UpsertCommentReqMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m UpsertCommentReqMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -214,7 +214,7 @@ type ListCommentReqMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m ListCommentReqMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -403,7 +403,7 @@ type ListCommentRespMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m ListCommentRespMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -566,7 +566,7 @@ type ListCommentResp_DataMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m ListCommentResp_DataMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}

@@ -112,7 +112,7 @@ type ListPermissionsReqMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m ListPermissionsReqMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -303,7 +303,7 @@ type ListPermissionsRespMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m ListPermissionsRespMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -407,7 +407,7 @@ type AssignPermissionsReqMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m AssignPermissionsReqMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -519,7 +519,7 @@ type UpsertPermissionReqMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m UpsertPermissionReqMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -684,7 +684,7 @@ type ListPermissionsResp_DataMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m ListPermissionsResp_DataMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
