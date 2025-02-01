@@ -14,7 +14,7 @@ message StravaAccount {
   string refresh_token = 4;
   string expires_at = 5;
   string token_type = 6;
-  string athlete_id = 7;
+  int64 athlete_id = 7;
   string username = 8;
   string first_name = 9;
   string last_name = 10;
