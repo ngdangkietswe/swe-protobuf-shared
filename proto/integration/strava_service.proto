@@ -28,6 +28,7 @@ service StravaService {
 
 message IntegrateStravaAccountReq {
   string user_id = 1;
+  Strava strava = 2;
   message Strava {
     string athlete_id = 1;
     string username = 2;
