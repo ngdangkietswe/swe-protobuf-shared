@@ -14,14 +14,14 @@ import "integration/shared.proto";
 service StravaService {
   rpc IntegrateStravaAccount(IntegrateStravaAccountReq) returns (common.EmptyResp) {
     option (google.api.http) = {
-      post: "/v1/strava/integrate"
+      post: "/api/v1/strava/integrate"
       body: "*"
     };
   }
 
   rpc GetStravaAccount(GetStravaAccountReq) returns (GetStravaAccountResp) {
     option (google.api.http) = {
-      get: "/v1/strava/account"
+      get: "/api/v1/strava/account"
     };
   }
 }
