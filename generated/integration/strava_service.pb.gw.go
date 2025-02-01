@@ -103,7 +103,7 @@ func RegisterStravaServiceHandlerServer(ctx context.Context, mux *runtime.ServeM
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/integration.StravaService/IntegrateStravaAccount", runtime.WithHTTPPathPattern("/v1/strava/integrate"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/integration.StravaService/IntegrateStravaAccount", runtime.WithHTTPPathPattern("/api/v1/strava/integrate"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -123,7 +123,7 @@ func RegisterStravaServiceHandlerServer(ctx context.Context, mux *runtime.ServeM
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/integration.StravaService/GetStravaAccount", runtime.WithHTTPPathPattern("/v1/strava/account"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/integration.StravaService/GetStravaAccount", runtime.WithHTTPPathPattern("/api/v1/strava/account"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -181,7 +181,7 @@ func RegisterStravaServiceHandlerClient(ctx context.Context, mux *runtime.ServeM
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/integration.StravaService/IntegrateStravaAccount", runtime.WithHTTPPathPattern("/v1/strava/integrate"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/integration.StravaService/IntegrateStravaAccount", runtime.WithHTTPPathPattern("/api/v1/strava/integrate"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -198,7 +198,7 @@ func RegisterStravaServiceHandlerClient(ctx context.Context, mux *runtime.ServeM
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/integration.StravaService/GetStravaAccount", runtime.WithHTTPPathPattern("/v1/strava/account"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/integration.StravaService/GetStravaAccount", runtime.WithHTTPPathPattern("/api/v1/strava/account"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -215,8 +215,8 @@ func RegisterStravaServiceHandlerClient(ctx context.Context, mux *runtime.ServeM
 }
 
 var (
-	pattern_StravaService_IntegrateStravaAccount_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"v1", "strava", "integrate"}, ""))
-	pattern_StravaService_GetStravaAccount_0       = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"v1", "strava", "account"}, ""))
+	pattern_StravaService_IntegrateStravaAccount_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v1", "strava", "integrate"}, ""))
+	pattern_StravaService_GetStravaAccount_0       = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v1", "strava", "account"}, ""))
 )
 
 var (
