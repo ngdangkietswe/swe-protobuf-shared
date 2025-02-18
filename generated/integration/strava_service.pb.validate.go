@@ -463,6 +463,332 @@ var _ interface {
 	ErrorName() string
 } = GetStravaAccountRespValidationError{}
 
+// Validate checks the field values on GetStravaActivitiesReq with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *GetStravaActivitiesReq) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GetStravaActivitiesReq with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// GetStravaActivitiesReqMultiError, or nil if none found.
+func (m *GetStravaActivitiesReq) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GetStravaActivitiesReq) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if all {
+		switch v := interface{}(m.GetPageable()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, GetStravaActivitiesReqValidationError{
+					field:  "Pageable",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, GetStravaActivitiesReqValidationError{
+					field:  "Pageable",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetPageable()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return GetStravaActivitiesReqValidationError{
+				field:  "Pageable",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if m.Type != nil {
+		// no validation rules for Type
+	}
+
+	if len(errors) > 0 {
+		return GetStravaActivitiesReqMultiError(errors)
+	}
+
+	return nil
+}
+
+// GetStravaActivitiesReqMultiError is an error wrapping multiple validation
+// errors returned by GetStravaActivitiesReq.ValidateAll() if the designated
+// constraints aren't met.
+type GetStravaActivitiesReqMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GetStravaActivitiesReqMultiError) Error() string {
+	msgs := make([]string, 0, len(m))
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GetStravaActivitiesReqMultiError) AllErrors() []error { return m }
+
+// GetStravaActivitiesReqValidationError is the validation error returned by
+// GetStravaActivitiesReq.Validate if the designated constraints aren't met.
+type GetStravaActivitiesReqValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e GetStravaActivitiesReqValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e GetStravaActivitiesReqValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e GetStravaActivitiesReqValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e GetStravaActivitiesReqValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e GetStravaActivitiesReqValidationError) ErrorName() string {
+	return "GetStravaActivitiesReqValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e GetStravaActivitiesReqValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sGetStravaActivitiesReq.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = GetStravaActivitiesReqValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = GetStravaActivitiesReqValidationError{}
+
+// Validate checks the field values on GetStravaActivitiesResp with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *GetStravaActivitiesResp) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GetStravaActivitiesResp with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// GetStravaActivitiesRespMultiError, or nil if none found.
+func (m *GetStravaActivitiesResp) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GetStravaActivitiesResp) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Success
+
+	switch v := m.Resp.(type) {
+	case *GetStravaActivitiesResp_Data_:
+		if v == nil {
+			err := GetStravaActivitiesRespValidationError{
+				field:  "Resp",
+				reason: "oneof value cannot be a typed-nil",
+			}
+			if !all {
+				return err
+			}
+			errors = append(errors, err)
+		}
+
+		if all {
+			switch v := interface{}(m.GetData()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, GetStravaActivitiesRespValidationError{
+						field:  "Data",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, GetStravaActivitiesRespValidationError{
+						field:  "Data",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetData()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return GetStravaActivitiesRespValidationError{
+					field:  "Data",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	case *GetStravaActivitiesResp_Error:
+		if v == nil {
+			err := GetStravaActivitiesRespValidationError{
+				field:  "Resp",
+				reason: "oneof value cannot be a typed-nil",
+			}
+			if !all {
+				return err
+			}
+			errors = append(errors, err)
+		}
+
+		if all {
+			switch v := interface{}(m.GetError()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, GetStravaActivitiesRespValidationError{
+						field:  "Error",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, GetStravaActivitiesRespValidationError{
+						field:  "Error",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetError()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return GetStravaActivitiesRespValidationError{
+					field:  "Error",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	default:
+		_ = v // ensures v is used
+	}
+
+	if len(errors) > 0 {
+		return GetStravaActivitiesRespMultiError(errors)
+	}
+
+	return nil
+}
+
+// GetStravaActivitiesRespMultiError is an error wrapping multiple validation
+// errors returned by GetStravaActivitiesResp.ValidateAll() if the designated
+// constraints aren't met.
+type GetStravaActivitiesRespMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GetStravaActivitiesRespMultiError) Error() string {
+	msgs := make([]string, 0, len(m))
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GetStravaActivitiesRespMultiError) AllErrors() []error { return m }
+
+// GetStravaActivitiesRespValidationError is the validation error returned by
+// GetStravaActivitiesResp.Validate if the designated constraints aren't met.
+type GetStravaActivitiesRespValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e GetStravaActivitiesRespValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e GetStravaActivitiesRespValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e GetStravaActivitiesRespValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e GetStravaActivitiesRespValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e GetStravaActivitiesRespValidationError) ErrorName() string {
+	return "GetStravaActivitiesRespValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e GetStravaActivitiesRespValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sGetStravaActivitiesResp.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = GetStravaActivitiesRespValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = GetStravaActivitiesRespValidationError{}
+
 // Validate checks the field values on IntegrateStravaAccountReq_Strava with
 // the rules defined in the proto definition for this message. If any rules
 // are violated, the first error encountered is returned, or nil if there are
@@ -583,3 +909,169 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = IntegrateStravaAccountReq_StravaValidationError{}
+
+// Validate checks the field values on GetStravaActivitiesResp_Data with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *GetStravaActivitiesResp_Data) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GetStravaActivitiesResp_Data with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// GetStravaActivitiesResp_DataMultiError, or nil if none found.
+func (m *GetStravaActivitiesResp_Data) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GetStravaActivitiesResp_Data) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	for idx, item := range m.GetActivities() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, GetStravaActivitiesResp_DataValidationError{
+						field:  fmt.Sprintf("Activities[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, GetStravaActivitiesResp_DataValidationError{
+						field:  fmt.Sprintf("Activities[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return GetStravaActivitiesResp_DataValidationError{
+					field:  fmt.Sprintf("Activities[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	if all {
+		switch v := interface{}(m.GetPageMetaData()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, GetStravaActivitiesResp_DataValidationError{
+					field:  "PageMetaData",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, GetStravaActivitiesResp_DataValidationError{
+					field:  "PageMetaData",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetPageMetaData()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return GetStravaActivitiesResp_DataValidationError{
+				field:  "PageMetaData",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if len(errors) > 0 {
+		return GetStravaActivitiesResp_DataMultiError(errors)
+	}
+
+	return nil
+}
+
+// GetStravaActivitiesResp_DataMultiError is an error wrapping multiple
+// validation errors returned by GetStravaActivitiesResp_Data.ValidateAll() if
+// the designated constraints aren't met.
+type GetStravaActivitiesResp_DataMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GetStravaActivitiesResp_DataMultiError) Error() string {
+	msgs := make([]string, 0, len(m))
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GetStravaActivitiesResp_DataMultiError) AllErrors() []error { return m }
+
+// GetStravaActivitiesResp_DataValidationError is the validation error returned
+// by GetStravaActivitiesResp_Data.Validate if the designated constraints
+// aren't met.
+type GetStravaActivitiesResp_DataValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e GetStravaActivitiesResp_DataValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e GetStravaActivitiesResp_DataValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e GetStravaActivitiesResp_DataValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e GetStravaActivitiesResp_DataValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e GetStravaActivitiesResp_DataValidationError) ErrorName() string {
+	return "GetStravaActivitiesResp_DataValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e GetStravaActivitiesResp_DataValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sGetStravaActivitiesResp_Data.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = GetStravaActivitiesResp_DataValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = GetStravaActivitiesResp_DataValidationError{}
