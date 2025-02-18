@@ -24,6 +24,19 @@ service StravaService {
       get: "/api/v1/strava/account"
     };
   }
+
+  rpc SyncStravaActivities(common.EmptyReq) returns (common.EmptyResp) {
+    option (google.api.http) = {
+      post: "/api/v1/strava/sync"
+      body: "*"
+    };
+  }
+
+  rpc GetStravaActivities(GetStravaActivitiesReq) returns (GetStravaActivitiesResp) {
+    option (google.api.http) = {
+      get: "/api/v1/strava/activities"
+    };
+  }
 }
 
 message IntegrateStravaAccountReq {
@@ -49,6 +62,23 @@ message GetStravaAccountResp {
   bool success = 1;
   oneof resp {
     StravaAccount strava_account = 2;
+    common.Error error = 3;
+  }
+}
+
+message GetStravaActivitiesReq {
+  optional StravaActivityType type = 1;
+  common.Pageable pageable = 2;
+}
+
+message GetStravaActivitiesResp {
+  message Data {
+    repeated StravaActivity activities = 1;
+    common.PageMetaData page_meta_data = 2;
+  }
+  bool success = 1;
+  oneof resp {
+    Data data = 2;
     common.Error error = 3;
   }
 }

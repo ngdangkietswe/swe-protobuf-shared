@@ -7,6 +7,40 @@ option java_outer_classname = "IntegrationProtobuf";
 
 import "common/shared.proto";
 
+enum StravaActivityType {
+  RUN = 0;
+  RIDE = 1;
+  SWIM = 2;
+  WORKOUT = 3;
+  HIKE = 4;
+  WALK = 5;
+  NORDIC_SKI = 6;
+  ALPINE_SKI = 7;
+  BACKCOUNTRY_SKI = 8;
+  CANOEING = 9;
+  CROSSFIT = 10;
+  E_BIKE_RIDE = 11;
+  ELLIPTICAL = 12;
+  ICE_SKATE = 13;
+  INLINE_SKATE = 14;
+  KAYAKING = 15;
+  KITESURF = 16;
+  ROCK_CLIMBING = 17;
+  ROLLER_SKI = 18;
+  ROWING = 19;
+  SNOWBOARD = 20;
+  SNOWSHOE = 21;
+  STAIR_STEPPER = 22;
+  STAND_UP_PADDLING = 23;
+  SURFING = 24;
+  VIRTUAL_RIDE = 25;
+  VIRTUAL_RUN = 26;
+  WEIGHT_TRAINING = 27;
+  WINDSURF = 28;
+  YOGA = 29;
+  OTHER = 30;
+}
+
 message StravaAccount {
   string id = 1;
   string user_id = 2;
@@ -20,4 +54,22 @@ message StravaAccount {
   string last_name = 10;
   string created_at = 11;
   string updated_at = 12;
+}
+
+message StravaActivity {
+  string id = 1;
+  string user_id = 2;
+  int64 strava_activity_id = 3;
+  string activity_name = 4;
+  int32 activity_type = 5;
+  string activity_url = 6;
+  string start_date = 7;
+  double distance = 8; // Ex: 3.5 (km)
+  string moving_time = 9; // Ex: 12:30 (HH:mm)
+  string elapsed_time = 10; // Ex: 12:30 (HH:mm)
+  int32 total_elevation_gain = 11;
+  double average_speed = 12; // Ex: 4.5 (km/h)
+  double max_speed = 13; // Ex: 10.0 (km/h)
+  string pace = 14; // Ex: 05:00/km
+  string created_at = 15;
 }

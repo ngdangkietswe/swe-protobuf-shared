@@ -37,6 +37,8 @@ message IdReq {
   string id = 1;
 }
 
+message EmptyReq {}
+
 // COMMON RESPONSE MESSAGES
 message UpsertResp {
   message Data {
