@@ -19,6 +19,12 @@ service StravaService {
     };
   }
 
+  rpc RemoveStravaAccount(common.EmptyReq) returns (common.EmptyResp) {
+    option (google.api.http) = {
+      delete: "/api/v1/strava/remove"
+    };
+  }
+
   rpc GetStravaAccount(GetStravaAccountReq) returns (GetStravaAccountResp) {
     option (google.api.http) = {
       get: "/api/v1/strava/account"

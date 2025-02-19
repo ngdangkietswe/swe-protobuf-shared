@@ -59,17 +59,18 @@ message StravaAccount {
 message StravaActivity {
   string id = 1;
   string user_id = 2;
-  int64 strava_activity_id = 3;
-  string activity_name = 4;
-  int32 activity_type = 5;
-  string activity_url = 6;
-  string start_date = 7;
-  double distance = 8; // Ex: 3.5 (km)
-  string moving_time = 9; // Ex: 12:30 (HH:mm)
-  string elapsed_time = 10; // Ex: 12:30 (HH:mm)
-  int32 total_elevation_gain = 11;
-  double average_speed = 12; // Ex: 4.5 (km/h)
-  double max_speed = 13; // Ex: 10.0 (km/h)
-  string pace = 14; // Ex: 05:00/km
-  string created_at = 15;
+  int64 athlete_id = 3;
+  int64 strava_activity_id = 4;
+  string activity_name = 5;
+  int32 activity_type = 6;
+  string activity_url = 7;
+  string start_date = 8;
+  double distance = 9; // Ex: 3.5 (km)
+  string moving_time = 10; // Ex: 12:30 (HH:mm)
+  string elapsed_time = 11; // Ex: 12:30 (HH:mm)
+  int32 total_elevation_gain = 12;
+  double average_speed = 13; // Ex: 4.5 (km/h)
+  double max_speed = 14; // Ex: 10.0 (km/h)
+  string pace = 15; // Ex: 05:00/km
+  string created_at = 16;
 }
