@@ -185,6 +185,8 @@ func (m *StravaActivity) validate(all bool) error {
 
 	// no validation rules for UserId
 
+	// no validation rules for AthleteId
+
 	// no validation rules for StravaActivityId
 
 	// no validation rules for ActivityName

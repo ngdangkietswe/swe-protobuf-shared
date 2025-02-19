@@ -21,6 +21,7 @@ const _ = grpc.SupportPackageIsVersion9
 
 const (
 	StravaService_IntegrateStravaAccount_FullMethodName = "/integration.StravaService/IntegrateStravaAccount"
+	StravaService_RemoveStravaAccount_FullMethodName    = "/integration.StravaService/RemoveStravaAccount"
 	StravaService_GetStravaAccount_FullMethodName       = "/integration.StravaService/GetStravaAccount"
 	StravaService_SyncStravaActivities_FullMethodName   = "/integration.StravaService/SyncStravaActivities"
 	StravaService_GetStravaActivities_FullMethodName    = "/integration.StravaService/GetStravaActivities"
@@ -31,6 +32,7 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type StravaServiceClient interface {
 	IntegrateStravaAccount(ctx context.Context, in *IntegrateStravaAccountReq, opts ...grpc.CallOption) (*common.EmptyResp, error)
+	RemoveStravaAccount(ctx context.Context, in *common.EmptyReq, opts ...grpc.CallOption) (*common.EmptyResp, error)
 	GetStravaAccount(ctx context.Context, in *GetStravaAccountReq, opts ...grpc.CallOption) (*GetStravaAccountResp, error)
 	SyncStravaActivities(ctx context.Context, in *common.EmptyReq, opts ...grpc.CallOption) (*common.EmptyResp, error)
 	GetStravaActivities(ctx context.Context, in *GetStravaActivitiesReq, opts ...grpc.CallOption) (*GetStravaActivitiesResp, error)
@@ -48,6 +50,16 @@ func (c *stravaServiceClient) IntegrateStravaAccount(ctx context.Context, in *In
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(common.EmptyResp)
 	err := c.cc.Invoke(ctx, StravaService_IntegrateStravaAccount_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *stravaServiceClient) RemoveStravaAccount(ctx context.Context, in *common.EmptyReq, opts ...grpc.CallOption) (*common.EmptyResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(common.EmptyResp)
+	err := c.cc.Invoke(ctx, StravaService_RemoveStravaAccount_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -89,6 +101,7 @@ func (c *stravaServiceClient) GetStravaActivities(ctx context.Context, in *GetSt
 // for forward compatibility.
 type StravaServiceServer interface {
 	IntegrateStravaAccount(context.Context, *IntegrateStravaAccountReq) (*common.EmptyResp, error)
+	RemoveStravaAccount(context.Context, *common.EmptyReq) (*common.EmptyResp, error)
 	GetStravaAccount(context.Context, *GetStravaAccountReq) (*GetStravaAccountResp, error)
 	SyncStravaActivities(context.Context, *common.EmptyReq) (*common.EmptyResp, error)
 	GetStravaActivities(context.Context, *GetStravaActivitiesReq) (*GetStravaActivitiesResp, error)
@@ -104,6 +117,9 @@ type UnimplementedStravaServiceServer struct{}
 
 func (UnimplementedStravaServiceServer) IntegrateStravaAccount(context.Context, *IntegrateStravaAccountReq) (*common.EmptyResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method IntegrateStravaAccount not implemented")
+}
+func (UnimplementedStravaServiceServer) RemoveStravaAccount(context.Context, *common.EmptyReq) (*common.EmptyResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RemoveStravaAccount not implemented")
 }
 func (UnimplementedStravaServiceServer) GetStravaAccount(context.Context, *GetStravaAccountReq) (*GetStravaAccountResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetStravaAccount not implemented")
@@ -149,6 +165,24 @@ func _StravaService_IntegrateStravaAccount_Handler(srv interface{}, ctx context.
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(StravaServiceServer).IntegrateStravaAccount(ctx, req.(*IntegrateStravaAccountReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _StravaService_RemoveStravaAccount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(common.EmptyReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StravaServiceServer).RemoveStravaAccount(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: StravaService_RemoveStravaAccount_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StravaServiceServer).RemoveStravaAccount(ctx, req.(*common.EmptyReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -217,6 +251,10 @@ var StravaService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "IntegrateStravaAccount",
 			Handler:    _StravaService_IntegrateStravaAccount_Handler,
+		},
+		{
+			MethodName: "RemoveStravaAccount",
+			Handler:    _StravaService_RemoveStravaAccount_Handler,
 		},
 		{
 			MethodName: "GetStravaAccount",
