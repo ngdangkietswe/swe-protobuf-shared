@@ -68,7 +68,7 @@ message StravaActivity {
   double distance = 9; // Ex: 3.5 (km)
   string moving_time = 10; // Ex: 12:30 (HH:mm)
   string elapsed_time = 11; // Ex: 12:30 (HH:mm)
-  int32 total_elevation_gain = 12;
+  double total_elevation_gain = 12;
   double average_speed = 13; // Ex: 4.5 (km/h)
   double max_speed = 14; // Ex: 10.0 (km/h)
   string pace = 15; // Ex: 05:00/km
