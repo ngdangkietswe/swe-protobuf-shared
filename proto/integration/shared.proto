@@ -65,7 +65,7 @@ message StravaActivity {
   int32 activity_type = 6;
   string activity_url = 7;
   string start_date = 8;
-  double distance = 9; // Ex: 3.5 (km)
+  string distance = 9; // Ex: 3.5 (km)
   string moving_time = 10; // Ex: 12:30 (HH:mm)
   string elapsed_time = 11; // Ex: 12:30 (HH:mm)
   double total_elevation_gain = 12;
