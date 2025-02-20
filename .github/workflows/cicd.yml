@@ -105,6 +105,14 @@ jobs:
             -H "Authorization: Bearer ${{ secrets.PAT }}" \
             -d '{"event_type": "trigger-swe-grpc-gateway"}'
 
+      # After successful build, trigger the workflow in swe-go-common-shared
+      - name: Trigger workflow in swe-go-common-shared
+        run: |
+          curl -X POST \
+            https://api.github.com/repos/ngdangkietswe/swe-go-common-shared/dispatches \
+            -H "Authorization: Bearer ${{ secrets.PAT }}" \
+            -d '{"event_type": "trigger-swe-go-common-shared"}'
+
       - name: Calculate build duration
         id: build_duration
         run: |
