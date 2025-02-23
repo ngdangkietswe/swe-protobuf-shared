@@ -79,16 +79,17 @@ jobs:
         run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
 
       - name: Commit and push changes
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'  # Only on main push
         run: |
-          git config --global user.name "ngdangkietse"
-          git config --global user.email "kietnguyen17052001@gmail.com"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
           sudo chown $USER:$USER buf.lock
           sudo chown -R $USER:$USER ./generated
           chmod -R u+w .
           if [ -n "$(git status -s)" ]; then
             git status
             git add .
-            git commit -m "chore: regenerate files"
+            git commit -m "chore: regenerate protobuf files [skip ci]"
             git pull --rebase origin main
             git push origin main
           else

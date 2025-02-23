@@ -37,6 +37,10 @@ message IdReq {
   string id = 1;
 }
 
+message IdsReq {
+  repeated string ids = 1;
+}
+
 message EmptyReq {}
 
 // COMMON RESPONSE MESSAGES

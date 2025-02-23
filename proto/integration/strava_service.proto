@@ -43,6 +43,19 @@ service StravaService {
       get: "/api/v1/strava/activities"
     };
   }
+
+  rpc RemoveStravaActivity(common.IdReq) returns (common.EmptyResp) {
+    option (google.api.http) = {
+      delete: "/api/v1/strava/activity/{id}"
+    };
+  }
+
+  rpc BulkRemoveStravaActivities(common.IdsReq) returns (common.EmptyResp) {
+    option (google.api.http) = {
+      post: "/api/v1/strava/activities"
+      body: "*"
+    };
+  }
 }
 
 message IntegrateStravaAccountReq {
