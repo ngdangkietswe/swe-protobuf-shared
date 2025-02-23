@@ -20,11 +20,13 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	StravaService_IntegrateStravaAccount_FullMethodName = "/integration.StravaService/IntegrateStravaAccount"
-	StravaService_RemoveStravaAccount_FullMethodName    = "/integration.StravaService/RemoveStravaAccount"
-	StravaService_GetStravaAccount_FullMethodName       = "/integration.StravaService/GetStravaAccount"
-	StravaService_SyncStravaActivities_FullMethodName   = "/integration.StravaService/SyncStravaActivities"
-	StravaService_GetStravaActivities_FullMethodName    = "/integration.StravaService/GetStravaActivities"
+	StravaService_IntegrateStravaAccount_FullMethodName     = "/integration.StravaService/IntegrateStravaAccount"
+	StravaService_RemoveStravaAccount_FullMethodName        = "/integration.StravaService/RemoveStravaAccount"
+	StravaService_GetStravaAccount_FullMethodName           = "/integration.StravaService/GetStravaAccount"
+	StravaService_SyncStravaActivities_FullMethodName       = "/integration.StravaService/SyncStravaActivities"
+	StravaService_GetStravaActivities_FullMethodName        = "/integration.StravaService/GetStravaActivities"
+	StravaService_RemoveStravaActivity_FullMethodName       = "/integration.StravaService/RemoveStravaActivity"
+	StravaService_BulkRemoveStravaActivities_FullMethodName = "/integration.StravaService/BulkRemoveStravaActivities"
 )
 
 // StravaServiceClient is the client API for StravaService service.
@@ -36,6 +38,8 @@ type StravaServiceClient interface {
 	GetStravaAccount(ctx context.Context, in *GetStravaAccountReq, opts ...grpc.CallOption) (*GetStravaAccountResp, error)
 	SyncStravaActivities(ctx context.Context, in *common.EmptyReq, opts ...grpc.CallOption) (*common.EmptyResp, error)
 	GetStravaActivities(ctx context.Context, in *GetStravaActivitiesReq, opts ...grpc.CallOption) (*GetStravaActivitiesResp, error)
+	RemoveStravaActivity(ctx context.Context, in *common.IdReq, opts ...grpc.CallOption) (*common.EmptyResp, error)
+	BulkRemoveStravaActivities(ctx context.Context, in *common.IdsReq, opts ...grpc.CallOption) (*common.EmptyResp, error)
 }
 
 type stravaServiceClient struct {
@@ -96,6 +100,26 @@ func (c *stravaServiceClient) GetStravaActivities(ctx context.Context, in *GetSt
 	return out, nil
 }
 
+func (c *stravaServiceClient) RemoveStravaActivity(ctx context.Context, in *common.IdReq, opts ...grpc.CallOption) (*common.EmptyResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(common.EmptyResp)
+	err := c.cc.Invoke(ctx, StravaService_RemoveStravaActivity_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *stravaServiceClient) BulkRemoveStravaActivities(ctx context.Context, in *common.IdsReq, opts ...grpc.CallOption) (*common.EmptyResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(common.EmptyResp)
+	err := c.cc.Invoke(ctx, StravaService_BulkRemoveStravaActivities_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // StravaServiceServer is the server API for StravaService service.
 // All implementations must embed UnimplementedStravaServiceServer
 // for forward compatibility.
@@ -105,6 +129,8 @@ type StravaServiceServer interface {
 	GetStravaAccount(context.Context, *GetStravaAccountReq) (*GetStravaAccountResp, error)
 	SyncStravaActivities(context.Context, *common.EmptyReq) (*common.EmptyResp, error)
 	GetStravaActivities(context.Context, *GetStravaActivitiesReq) (*GetStravaActivitiesResp, error)
+	RemoveStravaActivity(context.Context, *common.IdReq) (*common.EmptyResp, error)
+	BulkRemoveStravaActivities(context.Context, *common.IdsReq) (*common.EmptyResp, error)
 	mustEmbedUnimplementedStravaServiceServer()
 }
 
@@ -129,6 +155,12 @@ func (UnimplementedStravaServiceServer) SyncStravaActivities(context.Context, *c
 }
 func (UnimplementedStravaServiceServer) GetStravaActivities(context.Context, *GetStravaActivitiesReq) (*GetStravaActivitiesResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetStravaActivities not implemented")
+}
+func (UnimplementedStravaServiceServer) RemoveStravaActivity(context.Context, *common.IdReq) (*common.EmptyResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RemoveStravaActivity not implemented")
+}
+func (UnimplementedStravaServiceServer) BulkRemoveStravaActivities(context.Context, *common.IdsReq) (*common.EmptyResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method BulkRemoveStravaActivities not implemented")
 }
 func (UnimplementedStravaServiceServer) mustEmbedUnimplementedStravaServiceServer() {}
 func (UnimplementedStravaServiceServer) testEmbeddedByValue()                       {}
@@ -241,6 +273,42 @@ func _StravaService_GetStravaActivities_Handler(srv interface{}, ctx context.Con
 	return interceptor(ctx, in, info, handler)
 }
 
+func _StravaService_RemoveStravaActivity_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(common.IdReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StravaServiceServer).RemoveStravaActivity(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: StravaService_RemoveStravaActivity_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StravaServiceServer).RemoveStravaActivity(ctx, req.(*common.IdReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _StravaService_BulkRemoveStravaActivities_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(common.IdsReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StravaServiceServer).BulkRemoveStravaActivities(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: StravaService_BulkRemoveStravaActivities_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StravaServiceServer).BulkRemoveStravaActivities(ctx, req.(*common.IdsReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // StravaService_ServiceDesc is the grpc.ServiceDesc for StravaService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -267,6 +335,14 @@ var StravaService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetStravaActivities",
 			Handler:    _StravaService_GetStravaActivities_Handler,
+		},
+		{
+			MethodName: "RemoveStravaActivity",
+			Handler:    _StravaService_RemoveStravaActivity_Handler,
+		},
+		{
+			MethodName: "BulkRemoveStravaActivities",
+			Handler:    _StravaService_BulkRemoveStravaActivities_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

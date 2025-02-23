@@ -166,6 +166,66 @@ func local_request_StravaService_GetStravaActivities_0(ctx context.Context, mars
 	return msg, metadata, err
 }
 
+func request_StravaService_RemoveStravaActivity_0(ctx context.Context, marshaler runtime.Marshaler, client StravaServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var (
+		protoReq common.IdReq
+		metadata runtime.ServerMetadata
+		err      error
+	)
+	val, ok := pathParams["id"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "id")
+	}
+	protoReq.Id, err = runtime.String(val)
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "id", err)
+	}
+	msg, err := client.RemoveStravaActivity(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	return msg, metadata, err
+}
+
+func local_request_StravaService_RemoveStravaActivity_0(ctx context.Context, marshaler runtime.Marshaler, server StravaServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var (
+		protoReq common.IdReq
+		metadata runtime.ServerMetadata
+		err      error
+	)
+	val, ok := pathParams["id"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "id")
+	}
+	protoReq.Id, err = runtime.String(val)
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "id", err)
+	}
+	msg, err := server.RemoveStravaActivity(ctx, &protoReq)
+	return msg, metadata, err
+}
+
+func request_StravaService_BulkRemoveStravaActivities_0(ctx context.Context, marshaler runtime.Marshaler, client StravaServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var (
+		protoReq common.IdsReq
+		metadata runtime.ServerMetadata
+	)
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	msg, err := client.BulkRemoveStravaActivities(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	return msg, metadata, err
+}
+
+func local_request_StravaService_BulkRemoveStravaActivities_0(ctx context.Context, marshaler runtime.Marshaler, server StravaServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var (
+		protoReq common.IdsReq
+		metadata runtime.ServerMetadata
+	)
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	msg, err := server.BulkRemoveStravaActivities(ctx, &protoReq)
+	return msg, metadata, err
+}
+
 // RegisterStravaServiceHandlerServer registers the http handlers for service StravaService to "mux".
 // UnaryRPC     :call StravaServiceServer directly.
 // StreamingRPC :currently unsupported pending https://github.com/grpc/grpc-go/issues/906.
@@ -271,6 +331,46 @@ func RegisterStravaServiceHandlerServer(ctx context.Context, mux *runtime.ServeM
 			return
 		}
 		forward_StravaService_GetStravaActivities_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+	})
+	mux.Handle(http.MethodDelete, pattern_StravaService_RemoveStravaActivity_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		var stream runtime.ServerTransportStream
+		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/integration.StravaService/RemoveStravaActivity", runtime.WithHTTPPathPattern("/api/v1/strava/activity/{id}"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := local_request_StravaService_RemoveStravaActivity_0(annotatedContext, inboundMarshaler, server, req, pathParams)
+		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		forward_StravaService_RemoveStravaActivity_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+	})
+	mux.Handle(http.MethodPost, pattern_StravaService_BulkRemoveStravaActivities_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		var stream runtime.ServerTransportStream
+		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/integration.StravaService/BulkRemoveStravaActivities", runtime.WithHTTPPathPattern("/api/v1/strava/activities"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := local_request_StravaService_BulkRemoveStravaActivities_0(annotatedContext, inboundMarshaler, server, req, pathParams)
+		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		forward_StravaService_BulkRemoveStravaActivities_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
 
 	return nil
@@ -397,21 +497,59 @@ func RegisterStravaServiceHandlerClient(ctx context.Context, mux *runtime.ServeM
 		}
 		forward_StravaService_GetStravaActivities_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
+	mux.Handle(http.MethodDelete, pattern_StravaService_RemoveStravaActivity_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/integration.StravaService/RemoveStravaActivity", runtime.WithHTTPPathPattern("/api/v1/strava/activity/{id}"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := request_StravaService_RemoveStravaActivity_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		forward_StravaService_RemoveStravaActivity_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+	})
+	mux.Handle(http.MethodPost, pattern_StravaService_BulkRemoveStravaActivities_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/integration.StravaService/BulkRemoveStravaActivities", runtime.WithHTTPPathPattern("/api/v1/strava/activities"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := request_StravaService_BulkRemoveStravaActivities_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		forward_StravaService_BulkRemoveStravaActivities_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+	})
 	return nil
 }
 
 var (
-	pattern_StravaService_IntegrateStravaAccount_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v1", "strava", "integrate"}, ""))
-	pattern_StravaService_RemoveStravaAccount_0    = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v1", "strava", "remove"}, ""))
-	pattern_StravaService_GetStravaAccount_0       = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v1", "strava", "account"}, ""))
-	pattern_StravaService_SyncStravaActivities_0   = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v1", "strava", "sync"}, ""))
-	pattern_StravaService_GetStravaActivities_0    = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v1", "strava", "activities"}, ""))
+	pattern_StravaService_IntegrateStravaAccount_0     = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v1", "strava", "integrate"}, ""))
+	pattern_StravaService_RemoveStravaAccount_0        = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v1", "strava", "remove"}, ""))
+	pattern_StravaService_GetStravaAccount_0           = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v1", "strava", "account"}, ""))
+	pattern_StravaService_SyncStravaActivities_0       = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v1", "strava", "sync"}, ""))
+	pattern_StravaService_GetStravaActivities_0        = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v1", "strava", "activities"}, ""))
+	pattern_StravaService_RemoveStravaActivity_0       = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"api", "v1", "strava", "activity", "id"}, ""))
+	pattern_StravaService_BulkRemoveStravaActivities_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v1", "strava", "activities"}, ""))
 )
 
 var (
-	forward_StravaService_IntegrateStravaAccount_0 = runtime.ForwardResponseMessage
-	forward_StravaService_RemoveStravaAccount_0    = runtime.ForwardResponseMessage
-	forward_StravaService_GetStravaAccount_0       = runtime.ForwardResponseMessage
-	forward_StravaService_SyncStravaActivities_0   = runtime.ForwardResponseMessage
-	forward_StravaService_GetStravaActivities_0    = runtime.ForwardResponseMessage
+	forward_StravaService_IntegrateStravaAccount_0     = runtime.ForwardResponseMessage
+	forward_StravaService_RemoveStravaAccount_0        = runtime.ForwardResponseMessage
+	forward_StravaService_GetStravaAccount_0           = runtime.ForwardResponseMessage
+	forward_StravaService_SyncStravaActivities_0       = runtime.ForwardResponseMessage
+	forward_StravaService_GetStravaActivities_0        = runtime.ForwardResponseMessage
+	forward_StravaService_RemoveStravaActivity_0       = runtime.ForwardResponseMessage
+	forward_StravaService_BulkRemoveStravaActivities_0 = runtime.ForwardResponseMessage
 )
