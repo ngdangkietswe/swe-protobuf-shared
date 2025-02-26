@@ -33,14 +33,14 @@ service TimeTrackingService {
 
   rpc Overtime(OverTimeReq) returns (common.UpsertResp) {
     option (google.api.http) = {
-      post: "/api/v1/time-trackings/overtime"
+      post: "/api/v1/time-trackings/{id}/overtime"
       body: "*"
     };
   }
 
   rpc ApproveOvertime(ApproveOvertimeReq) returns (common.EmptyResp) {
     option (google.api.http) = {
-      post: "/api/v1/time-trackings/overtime/{id}/approve"
+      post: "/api/v1/time-trackings/{id}/overtime/approve"
       body: "*"
     };
   }
@@ -99,14 +99,14 @@ message GetListTimeTrackingResp {
 
 message OverTimeReq {
   optional string user_id = 1; // default to current user
-  string time_tracking_id = 2;
+  string id = 2; // time tracking id
   double overtime_hours = 3;
   string reason = 4;
   string approver_id = 5; // use for send notification to approver
 }
 
 message ApproveOvertimeReq {
-  string id = 1; // overtime id
+  string id = 1; // time tracking id
   bool is_approved = 2;
   optional string reason = 3;
 }

@@ -25,5 +25,8 @@ message TimeTracking {
   TimeTrackingStatus status = 6;
   bool is_overtime = 7;
   double overtime_hours = 8;
-  common.Audit audit = 9;
+  double latitude = 9;
+  double longitude = 10;
+  string location = 11;
+  common.Audit audit = 12;
 }
