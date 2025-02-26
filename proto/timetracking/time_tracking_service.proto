@@ -1,0 +1,122 @@
+syntax = "proto3";
+package timetracking;
+
+option go_package = "proto/timetracking";
+
+option java_multiple_files = true;
+option java_package = "dev.ngdangkietswe.sweprotobufshared.timetracking";
+option java_outer_classname = "TimeTrackingServiceAPI";
+
+import "google/api/annotations.proto";
+import "common/shared.proto";
+import "timetracking/shared.proto";
+
+service TimeTrackingService {
+  rpc CheckIn(CheckInReq) returns (CheckInOutResp) {
+    option (google.api.http) = {
+      post: "/v1/time-trackings/check-in"
+      body: "*"
+    };
+  }
+
+  rpc CheckOut(CheckOutReq) returns (CheckInOutResp) {
+    option (google.api.http) = {
+      post: "/v1/time-trackings/check-out"
+      body: "*"
+    };
+  }
+
+  rpc GetTimeTracking(GetTimeTrackingReq) returns (GetTimeTrackingResp) {
+    option (google.api.http) = {
+      get: "/v1/time-trackings/{id}"
+    };
+  }
+
+  rpc GetListTimeTracking(GetListTimeTrackingReq) returns (GetListTimeTrackingResp) {
+    option (google.api.http) = {
+      get: "/v1/time-trackings"
+    };
+  }
+
+  rpc Overtime(OverTimeReq) returns (common.UpsertResp) {
+    option (google.api.http) = {
+      post: "/v1/time-trackings/overtime"
+      body: "*"
+    };
+  }
+
+  rpc ApproveOvertime(ApproveOvertimeReq) returns (common.EmptyResp) {
+    option (google.api.http) = {
+      post: "/v1/time-trackings/overtime/{id}/approve"
+      body: "*"
+    };
+  }
+}
+
+message CheckInReq {
+  optional string date = 1; // YYYY-MM-DD, default to today
+}
+
+message CheckOutReq {
+  optional string date = 1; // YYYY-MM-DD, default to today
+}
+
+message CheckInOutResp {
+  bool success = 1;
+  message Data {
+    string id = 1;
+    string date = 2; // YYYY-MM-DD
+    string check_in_time = 3; // HH:mm:ss
+    string check_out_time = 4; // HH:mm:ss
+    timetracking.TimeTrackingStatus status = 5;
+  }
+  oneof resp {
+    Data data = 2;
+    common.Error error = 3;
+  }
+}
+
+message GetTimeTrackingReq {
+  string id = 1;
+  optional string user_id = 2; // default to current user
+}
+
+message GetTimeTrackingResp {
+  bool success = 1;
+  oneof resp {
+    timetracking.TimeTracking time_tracking = 2;
+    common.Error error = 3;
+  }
+}
+
+message GetListTimeTrackingReq {
+  optional string user_id = 1; // default to current user
+  string start_date = 2; // YYYY-MM-DD
+  string end_date = 3; // YYYY-MM-DD
+  optional TimeTrackingStatus status = 4; // default to STATUS_UNSPECIFIED
+}
+
+message GetListTimeTrackingResp {
+  bool success = 1;
+  message Data {
+    repeated timetracking.TimeTracking time_trackings = 1;
+  }
+  oneof resp {
+    Data data = 2;
+    common.Error error = 3;
+  }
+}
+
+message OverTimeReq {
+  optional string user_id = 1; // default to current user
+  string time_tracking_id = 2;
+  double overtime_hours = 3;
+  string reason = 4;
+  string approver_id = 5; // use for send notification to approver
+}
+
+message ApproveOvertimeReq {
+  string id = 1; // overtime id
+  bool is_approved = 2;
+  optional string reason = 3;
+}

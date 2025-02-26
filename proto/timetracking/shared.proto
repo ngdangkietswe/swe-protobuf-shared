@@ -1,0 +1,29 @@
+syntax = "proto3";
+package timetracking;
+
+option java_multiple_files = true;
+option java_package = "dev.ngdangkietswe.sweprotobufshared.timetracking.protobuf";
+option java_outer_classname = "TimeTrackingProtobuf";
+
+import "common/shared.proto";
+
+enum TimeTrackingStatus {
+  STATUS_UNSPECIFIED = 0;
+  STATUS_NOT_CHECKED_IN = 1;
+  STATUS_CHECKED_IN = 2;
+  STATUS_CHECKED_IN_LATE = 3;
+  STATUS_CHECKED_OUT = 4;
+  STATUS_CHECKED_OUT_EARLY = 5;
+}
+
+message TimeTracking {
+  string id = 1;
+  string user_id = 2;
+  string date = 3; // YYYY-MM-DD
+  string check_in_time = 4; // HH:mm:ss
+  string check_out_time = 5; // HH:mm:ss
+  TimeTrackingStatus status = 6;
+  bool is_overtime = 7;
+  double overtime_hours = 8;
+  common.Audit audit = 9;
+}
