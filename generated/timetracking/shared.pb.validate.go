@@ -73,6 +73,12 @@ func (m *TimeTracking) validate(all bool) error {
 
 	// no validation rules for OvertimeHours
 
+	// no validation rules for Latitude
+
+	// no validation rules for Longitude
+
+	// no validation rules for Location
+
 	if all {
 		switch v := interface{}(m.GetAudit()).(type) {
 		case interface{ ValidateAll() error }:

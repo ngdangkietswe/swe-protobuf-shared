@@ -145,9 +145,18 @@ func request_TimeTrackingService_Overtime_0(ctx context.Context, marshaler runti
 	var (
 		protoReq OverTimeReq
 		metadata runtime.ServerMetadata
+		err      error
 	)
 	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	val, ok := pathParams["id"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "id")
+	}
+	protoReq.Id, err = runtime.String(val)
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "id", err)
 	}
 	msg, err := client.Overtime(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
@@ -157,9 +166,18 @@ func local_request_TimeTrackingService_Overtime_0(ctx context.Context, marshaler
 	var (
 		protoReq OverTimeReq
 		metadata runtime.ServerMetadata
+		err      error
 	)
 	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	val, ok := pathParams["id"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "id")
+	}
+	protoReq.Id, err = runtime.String(val)
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "id", err)
 	}
 	msg, err := server.Overtime(ctx, &protoReq)
 	return msg, metadata, err
@@ -279,7 +297,7 @@ func RegisterTimeTrackingServiceHandlerServer(ctx context.Context, mux *runtime.
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/timetracking.TimeTrackingService/Overtime", runtime.WithHTTPPathPattern("/api/v1/time-trackings/overtime"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/timetracking.TimeTrackingService/Overtime", runtime.WithHTTPPathPattern("/api/v1/time-trackings/{id}/overtime"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -299,7 +317,7 @@ func RegisterTimeTrackingServiceHandlerServer(ctx context.Context, mux *runtime.
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/timetracking.TimeTrackingService/ApproveOvertime", runtime.WithHTTPPathPattern("/api/v1/time-trackings/overtime/{id}/approve"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/timetracking.TimeTrackingService/ApproveOvertime", runtime.WithHTTPPathPattern("/api/v1/time-trackings/{id}/overtime/approve"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -408,7 +426,7 @@ func RegisterTimeTrackingServiceHandlerClient(ctx context.Context, mux *runtime.
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/timetracking.TimeTrackingService/Overtime", runtime.WithHTTPPathPattern("/api/v1/time-trackings/overtime"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/timetracking.TimeTrackingService/Overtime", runtime.WithHTTPPathPattern("/api/v1/time-trackings/{id}/overtime"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -425,7 +443,7 @@ func RegisterTimeTrackingServiceHandlerClient(ctx context.Context, mux *runtime.
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/timetracking.TimeTrackingService/ApproveOvertime", runtime.WithHTTPPathPattern("/api/v1/time-trackings/overtime/{id}/approve"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/timetracking.TimeTrackingService/ApproveOvertime", runtime.WithHTTPPathPattern("/api/v1/time-trackings/{id}/overtime/approve"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -445,8 +463,8 @@ var (
 	pattern_TimeTrackingService_CheckInOut_0          = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v1", "time-trackings", "check-in-out"}, ""))
 	pattern_TimeTrackingService_GetTimeTracking_0     = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"api", "v1", "time-trackings", "id"}, ""))
 	pattern_TimeTrackingService_GetListTimeTracking_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"api", "v1", "time-trackings"}, ""))
-	pattern_TimeTrackingService_Overtime_0            = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v1", "time-trackings", "overtime"}, ""))
-	pattern_TimeTrackingService_ApproveOvertime_0     = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4, 2, 5}, []string{"api", "v1", "time-trackings", "overtime", "id", "approve"}, ""))
+	pattern_TimeTrackingService_Overtime_0            = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4}, []string{"api", "v1", "time-trackings", "id", "overtime"}, ""))
+	pattern_TimeTrackingService_ApproveOvertime_0     = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 2, 5}, []string{"api", "v1", "time-trackings", "id", "overtime", "approve"}, ""))
 )
 
 var (
