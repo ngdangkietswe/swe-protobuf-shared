@@ -14,40 +14,40 @@ import "timetracking/shared.proto";
 service TimeTrackingService {
   rpc CheckIn(CheckInReq) returns (CheckInOutResp) {
     option (google.api.http) = {
-      post: "/v1/time-trackings/check-in"
+      post: "/api/v1/time-trackings/check-in"
       body: "*"
     };
   }
 
   rpc CheckOut(CheckOutReq) returns (CheckInOutResp) {
     option (google.api.http) = {
-      post: "/v1/time-trackings/check-out"
+      post: "/api/v1/time-trackings/check-out"
       body: "*"
     };
   }
 
   rpc GetTimeTracking(GetTimeTrackingReq) returns (GetTimeTrackingResp) {
     option (google.api.http) = {
-      get: "/v1/time-trackings/{id}"
+      get: "/api/v1/time-trackings/{id}"
     };
   }
 
   rpc GetListTimeTracking(GetListTimeTrackingReq) returns (GetListTimeTrackingResp) {
     option (google.api.http) = {
-      get: "/v1/time-trackings"
+      get: "/api/v1/time-trackings"
     };
   }
 
   rpc Overtime(OverTimeReq) returns (common.UpsertResp) {
     option (google.api.http) = {
-      post: "/v1/time-trackings/overtime"
+      post: "/api/v1/time-trackings/overtime"
       body: "*"
     };
   }
 
   rpc ApproveOvertime(ApproveOvertimeReq) returns (common.EmptyResp) {
     option (google.api.http) = {
-      post: "/v1/time-trackings/overtime/{id}/approve"
+      post: "/api/v1/time-trackings/overtime/{id}/approve"
       body: "*"
     };
   }
