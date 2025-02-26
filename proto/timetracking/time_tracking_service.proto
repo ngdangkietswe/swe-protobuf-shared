@@ -12,16 +12,9 @@ import "common/shared.proto";
 import "timetracking/shared.proto";
 
 service TimeTrackingService {
-  rpc CheckIn(CheckInReq) returns (CheckInOutResp) {
+  rpc CheckInOut(CheckInOutReq) returns (CheckInOutResp) {
     option (google.api.http) = {
-      post: "/api/v1/time-trackings/check-in"
-      body: "*"
-    };
-  }
-
-  rpc CheckOut(CheckOutReq) returns (CheckInOutResp) {
-    option (google.api.http) = {
-      post: "/api/v1/time-trackings/check-out"
+      post: "/api/v1/time-trackings/check-in-out"
       body: "*"
     };
   }
@@ -53,12 +46,9 @@ service TimeTrackingService {
   }
 }
 
-message CheckInReq {
-  optional string date = 1; // YYYY-MM-DD, default to today
-}
-
-message CheckOutReq {
-  optional string date = 1; // YYYY-MM-DD, default to today
+message CheckInOutReq {
+  double latitude = 1;
+  double longitude = 2;
 }
 
 message CheckInOutResp {
