@@ -243,7 +243,7 @@ func RegisterTimeTrackingServiceHandlerServer(ctx context.Context, mux *runtime.
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/timetracking.TimeTrackingService/CheckIn", runtime.WithHTTPPathPattern("/v1/time-trackings/check-in"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/timetracking.TimeTrackingService/CheckIn", runtime.WithHTTPPathPattern("/api/v1/time-trackings/check-in"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -263,7 +263,7 @@ func RegisterTimeTrackingServiceHandlerServer(ctx context.Context, mux *runtime.
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/timetracking.TimeTrackingService/CheckOut", runtime.WithHTTPPathPattern("/v1/time-trackings/check-out"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/timetracking.TimeTrackingService/CheckOut", runtime.WithHTTPPathPattern("/api/v1/time-trackings/check-out"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -283,7 +283,7 @@ func RegisterTimeTrackingServiceHandlerServer(ctx context.Context, mux *runtime.
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/timetracking.TimeTrackingService/GetTimeTracking", runtime.WithHTTPPathPattern("/v1/time-trackings/{id}"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/timetracking.TimeTrackingService/GetTimeTracking", runtime.WithHTTPPathPattern("/api/v1/time-trackings/{id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -303,7 +303,7 @@ func RegisterTimeTrackingServiceHandlerServer(ctx context.Context, mux *runtime.
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/timetracking.TimeTrackingService/GetListTimeTracking", runtime.WithHTTPPathPattern("/v1/time-trackings"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/timetracking.TimeTrackingService/GetListTimeTracking", runtime.WithHTTPPathPattern("/api/v1/time-trackings"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -323,7 +323,7 @@ func RegisterTimeTrackingServiceHandlerServer(ctx context.Context, mux *runtime.
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/timetracking.TimeTrackingService/Overtime", runtime.WithHTTPPathPattern("/v1/time-trackings/overtime"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/timetracking.TimeTrackingService/Overtime", runtime.WithHTTPPathPattern("/api/v1/time-trackings/overtime"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -343,7 +343,7 @@ func RegisterTimeTrackingServiceHandlerServer(ctx context.Context, mux *runtime.
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/timetracking.TimeTrackingService/ApproveOvertime", runtime.WithHTTPPathPattern("/v1/time-trackings/overtime/{id}/approve"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/timetracking.TimeTrackingService/ApproveOvertime", runtime.WithHTTPPathPattern("/api/v1/time-trackings/overtime/{id}/approve"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -401,7 +401,7 @@ func RegisterTimeTrackingServiceHandlerClient(ctx context.Context, mux *runtime.
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/timetracking.TimeTrackingService/CheckIn", runtime.WithHTTPPathPattern("/v1/time-trackings/check-in"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/timetracking.TimeTrackingService/CheckIn", runtime.WithHTTPPathPattern("/api/v1/time-trackings/check-in"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -418,7 +418,7 @@ func RegisterTimeTrackingServiceHandlerClient(ctx context.Context, mux *runtime.
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/timetracking.TimeTrackingService/CheckOut", runtime.WithHTTPPathPattern("/v1/time-trackings/check-out"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/timetracking.TimeTrackingService/CheckOut", runtime.WithHTTPPathPattern("/api/v1/time-trackings/check-out"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -435,7 +435,7 @@ func RegisterTimeTrackingServiceHandlerClient(ctx context.Context, mux *runtime.
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/timetracking.TimeTrackingService/GetTimeTracking", runtime.WithHTTPPathPattern("/v1/time-trackings/{id}"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/timetracking.TimeTrackingService/GetTimeTracking", runtime.WithHTTPPathPattern("/api/v1/time-trackings/{id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -452,7 +452,7 @@ func RegisterTimeTrackingServiceHandlerClient(ctx context.Context, mux *runtime.
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/timetracking.TimeTrackingService/GetListTimeTracking", runtime.WithHTTPPathPattern("/v1/time-trackings"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/timetracking.TimeTrackingService/GetListTimeTracking", runtime.WithHTTPPathPattern("/api/v1/time-trackings"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -469,7 +469,7 @@ func RegisterTimeTrackingServiceHandlerClient(ctx context.Context, mux *runtime.
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/timetracking.TimeTrackingService/Overtime", runtime.WithHTTPPathPattern("/v1/time-trackings/overtime"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/timetracking.TimeTrackingService/Overtime", runtime.WithHTTPPathPattern("/api/v1/time-trackings/overtime"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -486,7 +486,7 @@ func RegisterTimeTrackingServiceHandlerClient(ctx context.Context, mux *runtime.
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/timetracking.TimeTrackingService/ApproveOvertime", runtime.WithHTTPPathPattern("/v1/time-trackings/overtime/{id}/approve"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/timetracking.TimeTrackingService/ApproveOvertime", runtime.WithHTTPPathPattern("/api/v1/time-trackings/overtime/{id}/approve"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -503,12 +503,12 @@ func RegisterTimeTrackingServiceHandlerClient(ctx context.Context, mux *runtime.
 }
 
 var (
-	pattern_TimeTrackingService_CheckIn_0             = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"v1", "time-trackings", "check-in"}, ""))
-	pattern_TimeTrackingService_CheckOut_0            = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"v1", "time-trackings", "check-out"}, ""))
-	pattern_TimeTrackingService_GetTimeTracking_0     = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"v1", "time-trackings", "id"}, ""))
-	pattern_TimeTrackingService_GetListTimeTracking_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "time-trackings"}, ""))
-	pattern_TimeTrackingService_Overtime_0            = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"v1", "time-trackings", "overtime"}, ""))
-	pattern_TimeTrackingService_ApproveOvertime_0     = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4}, []string{"v1", "time-trackings", "overtime", "id", "approve"}, ""))
+	pattern_TimeTrackingService_CheckIn_0             = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v1", "time-trackings", "check-in"}, ""))
+	pattern_TimeTrackingService_CheckOut_0            = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v1", "time-trackings", "check-out"}, ""))
+	pattern_TimeTrackingService_GetTimeTracking_0     = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"api", "v1", "time-trackings", "id"}, ""))
+	pattern_TimeTrackingService_GetListTimeTracking_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"api", "v1", "time-trackings"}, ""))
+	pattern_TimeTrackingService_Overtime_0            = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v1", "time-trackings", "overtime"}, ""))
+	pattern_TimeTrackingService_ApproveOvertime_0     = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4, 2, 5}, []string{"api", "v1", "time-trackings", "overtime", "id", "approve"}, ""))
 )
 
 var (
