@@ -35,148 +35,46 @@ var (
 	_ = sort.Sort
 )
 
-// Validate checks the field values on CheckInReq with the rules defined in the
-// proto definition for this message. If any rules are violated, the first
-// error encountered is returned, or nil if there are no violations.
-func (m *CheckInReq) Validate() error {
-	return m.validate(false)
-}
-
-// ValidateAll checks the field values on CheckInReq with the rules defined in
-// the proto definition for this message. If any rules are violated, the
-// result is a list of violation errors wrapped in CheckInReqMultiError, or
-// nil if none found.
-func (m *CheckInReq) ValidateAll() error {
-	return m.validate(true)
-}
-
-func (m *CheckInReq) validate(all bool) error {
-	if m == nil {
-		return nil
-	}
-
-	var errors []error
-
-	if m.Date != nil {
-		// no validation rules for Date
-	}
-
-	if len(errors) > 0 {
-		return CheckInReqMultiError(errors)
-	}
-
-	return nil
-}
-
-// CheckInReqMultiError is an error wrapping multiple validation errors
-// returned by CheckInReq.ValidateAll() if the designated constraints aren't met.
-type CheckInReqMultiError []error
-
-// Error returns a concatenation of all the error messages it wraps.
-func (m CheckInReqMultiError) Error() string {
-	msgs := make([]string, 0, len(m))
-	for _, err := range m {
-		msgs = append(msgs, err.Error())
-	}
-	return strings.Join(msgs, "; ")
-}
-
-// AllErrors returns a list of validation violation errors.
-func (m CheckInReqMultiError) AllErrors() []error { return m }
-
-// CheckInReqValidationError is the validation error returned by
-// CheckInReq.Validate if the designated constraints aren't met.
-type CheckInReqValidationError struct {
-	field  string
-	reason string
-	cause  error
-	key    bool
-}
-
-// Field function returns field value.
-func (e CheckInReqValidationError) Field() string { return e.field }
-
-// Reason function returns reason value.
-func (e CheckInReqValidationError) Reason() string { return e.reason }
-
-// Cause function returns cause value.
-func (e CheckInReqValidationError) Cause() error { return e.cause }
-
-// Key function returns key value.
-func (e CheckInReqValidationError) Key() bool { return e.key }
-
-// ErrorName returns error name.
-func (e CheckInReqValidationError) ErrorName() string { return "CheckInReqValidationError" }
-
-// Error satisfies the builtin error interface
-func (e CheckInReqValidationError) Error() string {
-	cause := ""
-	if e.cause != nil {
-		cause = fmt.Sprintf(" | caused by: %v", e.cause)
-	}
-
-	key := ""
-	if e.key {
-		key = "key for "
-	}
-
-	return fmt.Sprintf(
-		"invalid %sCheckInReq.%s: %s%s",
-		key,
-		e.field,
-		e.reason,
-		cause)
-}
-
-var _ error = CheckInReqValidationError{}
-
-var _ interface {
-	Field() string
-	Reason() string
-	Key() bool
-	Cause() error
-	ErrorName() string
-} = CheckInReqValidationError{}
-
-// Validate checks the field values on CheckOutReq with the rules defined in
+// Validate checks the field values on CheckInOutReq with the rules defined in
 // the proto definition for this message. If any rules are violated, the first
 // error encountered is returned, or nil if there are no violations.
-func (m *CheckOutReq) Validate() error {
+func (m *CheckInOutReq) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on CheckOutReq with the rules defined in
-// the proto definition for this message. If any rules are violated, the
-// result is a list of violation errors wrapped in CheckOutReqMultiError, or
+// ValidateAll checks the field values on CheckInOutReq with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in CheckInOutReqMultiError, or
 // nil if none found.
-func (m *CheckOutReq) ValidateAll() error {
+func (m *CheckInOutReq) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *CheckOutReq) validate(all bool) error {
+func (m *CheckInOutReq) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
 
 	var errors []error
 
-	if m.Date != nil {
-		// no validation rules for Date
-	}
+	// no validation rules for Latitude
+
+	// no validation rules for Longitude
 
 	if len(errors) > 0 {
-		return CheckOutReqMultiError(errors)
+		return CheckInOutReqMultiError(errors)
 	}
 
 	return nil
 }
 
-// CheckOutReqMultiError is an error wrapping multiple validation errors
-// returned by CheckOutReq.ValidateAll() if the designated constraints aren't met.
-type CheckOutReqMultiError []error
+// CheckInOutReqMultiError is an error wrapping multiple validation errors
+// returned by CheckInOutReq.ValidateAll() if the designated constraints
+// aren't met.
+type CheckInOutReqMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m CheckOutReqMultiError) Error() string {
+func (m CheckInOutReqMultiError) Error() string {
 	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -185,11 +83,11 @@ func (m CheckOutReqMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m CheckOutReqMultiError) AllErrors() []error { return m }
+func (m CheckInOutReqMultiError) AllErrors() []error { return m }
 
-// CheckOutReqValidationError is the validation error returned by
-// CheckOutReq.Validate if the designated constraints aren't met.
-type CheckOutReqValidationError struct {
+// CheckInOutReqValidationError is the validation error returned by
+// CheckInOutReq.Validate if the designated constraints aren't met.
+type CheckInOutReqValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -197,22 +95,22 @@ type CheckOutReqValidationError struct {
 }
 
 // Field function returns field value.
-func (e CheckOutReqValidationError) Field() string { return e.field }
+func (e CheckInOutReqValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e CheckOutReqValidationError) Reason() string { return e.reason }
+func (e CheckInOutReqValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e CheckOutReqValidationError) Cause() error { return e.cause }
+func (e CheckInOutReqValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e CheckOutReqValidationError) Key() bool { return e.key }
+func (e CheckInOutReqValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e CheckOutReqValidationError) ErrorName() string { return "CheckOutReqValidationError" }
+func (e CheckInOutReqValidationError) ErrorName() string { return "CheckInOutReqValidationError" }
 
 // Error satisfies the builtin error interface
-func (e CheckOutReqValidationError) Error() string {
+func (e CheckInOutReqValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -224,14 +122,14 @@ func (e CheckOutReqValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sCheckOutReq.%s: %s%s",
+		"invalid %sCheckInOutReq.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = CheckOutReqValidationError{}
+var _ error = CheckInOutReqValidationError{}
 
 var _ interface {
 	Field() string
@@ -239,7 +137,7 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = CheckOutReqValidationError{}
+} = CheckInOutReqValidationError{}
 
 // Validate checks the field values on CheckInOutResp with the rules defined in
 // the proto definition for this message. If any rules are violated, the first

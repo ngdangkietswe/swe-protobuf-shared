@@ -35,51 +35,27 @@ var (
 	_ = metadata.Join
 )
 
-func request_TimeTrackingService_CheckIn_0(ctx context.Context, marshaler runtime.Marshaler, client TimeTrackingServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func request_TimeTrackingService_CheckInOut_0(ctx context.Context, marshaler runtime.Marshaler, client TimeTrackingServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var (
-		protoReq CheckInReq
+		protoReq CheckInOutReq
 		metadata runtime.ServerMetadata
 	)
 	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-	msg, err := client.CheckIn(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	msg, err := client.CheckInOut(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
 
-func local_request_TimeTrackingService_CheckIn_0(ctx context.Context, marshaler runtime.Marshaler, server TimeTrackingServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func local_request_TimeTrackingService_CheckInOut_0(ctx context.Context, marshaler runtime.Marshaler, server TimeTrackingServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var (
-		protoReq CheckInReq
+		protoReq CheckInOutReq
 		metadata runtime.ServerMetadata
 	)
 	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-	msg, err := server.CheckIn(ctx, &protoReq)
-	return msg, metadata, err
-}
-
-func request_TimeTrackingService_CheckOut_0(ctx context.Context, marshaler runtime.Marshaler, client TimeTrackingServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var (
-		protoReq CheckOutReq
-		metadata runtime.ServerMetadata
-	)
-	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
-	}
-	msg, err := client.CheckOut(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
-	return msg, metadata, err
-}
-
-func local_request_TimeTrackingService_CheckOut_0(ctx context.Context, marshaler runtime.Marshaler, server TimeTrackingServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var (
-		protoReq CheckOutReq
-		metadata runtime.ServerMetadata
-	)
-	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
-	}
-	msg, err := server.CheckOut(ctx, &protoReq)
+	msg, err := server.CheckInOut(ctx, &protoReq)
 	return msg, metadata, err
 }
 
@@ -237,45 +213,25 @@ func local_request_TimeTrackingService_ApproveOvertime_0(ctx context.Context, ma
 // Note that using this registration option will cause many gRPC library features to stop working. Consider using RegisterTimeTrackingServiceHandlerFromEndpoint instead.
 // GRPC interceptors will not work for this type of registration. To use interceptors, you must use the "runtime.WithMiddlewares" option in the "runtime.NewServeMux" call.
 func RegisterTimeTrackingServiceHandlerServer(ctx context.Context, mux *runtime.ServeMux, server TimeTrackingServiceServer) error {
-	mux.Handle(http.MethodPost, pattern_TimeTrackingService_CheckIn_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPost, pattern_TimeTrackingService_CheckInOut_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/timetracking.TimeTrackingService/CheckIn", runtime.WithHTTPPathPattern("/api/v1/time-trackings/check-in"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/timetracking.TimeTrackingService/CheckInOut", runtime.WithHTTPPathPattern("/api/v1/time-trackings/check-in-out"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := local_request_TimeTrackingService_CheckIn_0(annotatedContext, inboundMarshaler, server, req, pathParams)
+		resp, md, err := local_request_TimeTrackingService_CheckInOut_0(annotatedContext, inboundMarshaler, server, req, pathParams)
 		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		forward_TimeTrackingService_CheckIn_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-	})
-	mux.Handle(http.MethodPost, pattern_TimeTrackingService_CheckOut_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
-		ctx, cancel := context.WithCancel(req.Context())
-		defer cancel()
-		var stream runtime.ServerTransportStream
-		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
-		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/timetracking.TimeTrackingService/CheckOut", runtime.WithHTTPPathPattern("/api/v1/time-trackings/check-out"))
-		if err != nil {
-			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
-			return
-		}
-		resp, md, err := local_request_TimeTrackingService_CheckOut_0(annotatedContext, inboundMarshaler, server, req, pathParams)
-		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
-		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
-		if err != nil {
-			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
-			return
-		}
-		forward_TimeTrackingService_CheckOut_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_TimeTrackingService_CheckInOut_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
 	mux.Handle(http.MethodGet, pattern_TimeTrackingService_GetTimeTracking_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
@@ -397,39 +353,22 @@ func RegisterTimeTrackingServiceHandler(ctx context.Context, mux *runtime.ServeM
 // doesn't go through the normal gRPC flow (creating a gRPC client etc.) then it will be up to the passed in
 // "TimeTrackingServiceClient" to call the correct interceptors. This client ignores the HTTP middlewares.
 func RegisterTimeTrackingServiceHandlerClient(ctx context.Context, mux *runtime.ServeMux, client TimeTrackingServiceClient) error {
-	mux.Handle(http.MethodPost, pattern_TimeTrackingService_CheckIn_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPost, pattern_TimeTrackingService_CheckInOut_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/timetracking.TimeTrackingService/CheckIn", runtime.WithHTTPPathPattern("/api/v1/time-trackings/check-in"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/timetracking.TimeTrackingService/CheckInOut", runtime.WithHTTPPathPattern("/api/v1/time-trackings/check-in-out"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_TimeTrackingService_CheckIn_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_TimeTrackingService_CheckInOut_0(annotatedContext, inboundMarshaler, client, req, pathParams)
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		forward_TimeTrackingService_CheckIn_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-	})
-	mux.Handle(http.MethodPost, pattern_TimeTrackingService_CheckOut_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
-		ctx, cancel := context.WithCancel(req.Context())
-		defer cancel()
-		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/timetracking.TimeTrackingService/CheckOut", runtime.WithHTTPPathPattern("/api/v1/time-trackings/check-out"))
-		if err != nil {
-			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
-			return
-		}
-		resp, md, err := request_TimeTrackingService_CheckOut_0(annotatedContext, inboundMarshaler, client, req, pathParams)
-		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
-		if err != nil {
-			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
-			return
-		}
-		forward_TimeTrackingService_CheckOut_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_TimeTrackingService_CheckInOut_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
 	mux.Handle(http.MethodGet, pattern_TimeTrackingService_GetTimeTracking_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
@@ -503,8 +442,7 @@ func RegisterTimeTrackingServiceHandlerClient(ctx context.Context, mux *runtime.
 }
 
 var (
-	pattern_TimeTrackingService_CheckIn_0             = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v1", "time-trackings", "check-in"}, ""))
-	pattern_TimeTrackingService_CheckOut_0            = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v1", "time-trackings", "check-out"}, ""))
+	pattern_TimeTrackingService_CheckInOut_0          = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v1", "time-trackings", "check-in-out"}, ""))
 	pattern_TimeTrackingService_GetTimeTracking_0     = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"api", "v1", "time-trackings", "id"}, ""))
 	pattern_TimeTrackingService_GetListTimeTracking_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"api", "v1", "time-trackings"}, ""))
 	pattern_TimeTrackingService_Overtime_0            = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v1", "time-trackings", "overtime"}, ""))
@@ -512,8 +450,7 @@ var (
 )
 
 var (
-	forward_TimeTrackingService_CheckIn_0             = runtime.ForwardResponseMessage
-	forward_TimeTrackingService_CheckOut_0            = runtime.ForwardResponseMessage
+	forward_TimeTrackingService_CheckInOut_0          = runtime.ForwardResponseMessage
 	forward_TimeTrackingService_GetTimeTracking_0     = runtime.ForwardResponseMessage
 	forward_TimeTrackingService_GetListTimeTracking_0 = runtime.ForwardResponseMessage
 	forward_TimeTrackingService_Overtime_0            = runtime.ForwardResponseMessage

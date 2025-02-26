@@ -20,8 +20,7 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	TimeTrackingService_CheckIn_FullMethodName             = "/timetracking.TimeTrackingService/CheckIn"
-	TimeTrackingService_CheckOut_FullMethodName            = "/timetracking.TimeTrackingService/CheckOut"
+	TimeTrackingService_CheckInOut_FullMethodName          = "/timetracking.TimeTrackingService/CheckInOut"
 	TimeTrackingService_GetTimeTracking_FullMethodName     = "/timetracking.TimeTrackingService/GetTimeTracking"
 	TimeTrackingService_GetListTimeTracking_FullMethodName = "/timetracking.TimeTrackingService/GetListTimeTracking"
 	TimeTrackingService_Overtime_FullMethodName            = "/timetracking.TimeTrackingService/Overtime"
@@ -32,8 +31,7 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type TimeTrackingServiceClient interface {
-	CheckIn(ctx context.Context, in *CheckInReq, opts ...grpc.CallOption) (*CheckInOutResp, error)
-	CheckOut(ctx context.Context, in *CheckOutReq, opts ...grpc.CallOption) (*CheckInOutResp, error)
+	CheckInOut(ctx context.Context, in *CheckInOutReq, opts ...grpc.CallOption) (*CheckInOutResp, error)
 	GetTimeTracking(ctx context.Context, in *GetTimeTrackingReq, opts ...grpc.CallOption) (*GetTimeTrackingResp, error)
 	GetListTimeTracking(ctx context.Context, in *GetListTimeTrackingReq, opts ...grpc.CallOption) (*GetListTimeTrackingResp, error)
 	Overtime(ctx context.Context, in *OverTimeReq, opts ...grpc.CallOption) (*common.UpsertResp, error)
@@ -48,20 +46,10 @@ func NewTimeTrackingServiceClient(cc grpc.ClientConnInterface) TimeTrackingServi
 	return &timeTrackingServiceClient{cc}
 }
 
-func (c *timeTrackingServiceClient) CheckIn(ctx context.Context, in *CheckInReq, opts ...grpc.CallOption) (*CheckInOutResp, error) {
+func (c *timeTrackingServiceClient) CheckInOut(ctx context.Context, in *CheckInOutReq, opts ...grpc.CallOption) (*CheckInOutResp, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(CheckInOutResp)
-	err := c.cc.Invoke(ctx, TimeTrackingService_CheckIn_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *timeTrackingServiceClient) CheckOut(ctx context.Context, in *CheckOutReq, opts ...grpc.CallOption) (*CheckInOutResp, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(CheckInOutResp)
-	err := c.cc.Invoke(ctx, TimeTrackingService_CheckOut_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, TimeTrackingService_CheckInOut_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -112,8 +100,7 @@ func (c *timeTrackingServiceClient) ApproveOvertime(ctx context.Context, in *App
 // All implementations must embed UnimplementedTimeTrackingServiceServer
 // for forward compatibility.
 type TimeTrackingServiceServer interface {
-	CheckIn(context.Context, *CheckInReq) (*CheckInOutResp, error)
-	CheckOut(context.Context, *CheckOutReq) (*CheckInOutResp, error)
+	CheckInOut(context.Context, *CheckInOutReq) (*CheckInOutResp, error)
 	GetTimeTracking(context.Context, *GetTimeTrackingReq) (*GetTimeTrackingResp, error)
 	GetListTimeTracking(context.Context, *GetListTimeTrackingReq) (*GetListTimeTrackingResp, error)
 	Overtime(context.Context, *OverTimeReq) (*common.UpsertResp, error)
@@ -128,11 +115,8 @@ type TimeTrackingServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedTimeTrackingServiceServer struct{}
 
-func (UnimplementedTimeTrackingServiceServer) CheckIn(context.Context, *CheckInReq) (*CheckInOutResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CheckIn not implemented")
-}
-func (UnimplementedTimeTrackingServiceServer) CheckOut(context.Context, *CheckOutReq) (*CheckInOutResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CheckOut not implemented")
+func (UnimplementedTimeTrackingServiceServer) CheckInOut(context.Context, *CheckInOutReq) (*CheckInOutResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CheckInOut not implemented")
 }
 func (UnimplementedTimeTrackingServiceServer) GetTimeTracking(context.Context, *GetTimeTrackingReq) (*GetTimeTrackingResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetTimeTracking not implemented")
@@ -167,38 +151,20 @@ func RegisterTimeTrackingServiceServer(s grpc.ServiceRegistrar, srv TimeTracking
 	s.RegisterService(&TimeTrackingService_ServiceDesc, srv)
 }
 
-func _TimeTrackingService_CheckIn_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CheckInReq)
+func _TimeTrackingService_CheckInOut_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CheckInOutReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(TimeTrackingServiceServer).CheckIn(ctx, in)
+		return srv.(TimeTrackingServiceServer).CheckInOut(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: TimeTrackingService_CheckIn_FullMethodName,
+		FullMethod: TimeTrackingService_CheckInOut_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(TimeTrackingServiceServer).CheckIn(ctx, req.(*CheckInReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _TimeTrackingService_CheckOut_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CheckOutReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(TimeTrackingServiceServer).CheckOut(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: TimeTrackingService_CheckOut_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(TimeTrackingServiceServer).CheckOut(ctx, req.(*CheckOutReq))
+		return srv.(TimeTrackingServiceServer).CheckInOut(ctx, req.(*CheckInOutReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -283,12 +249,8 @@ var TimeTrackingService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*TimeTrackingServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "CheckIn",
-			Handler:    _TimeTrackingService_CheckIn_Handler,
-		},
-		{
-			MethodName: "CheckOut",
-			Handler:    _TimeTrackingService_CheckOut_Handler,
+			MethodName: "CheckInOut",
+			Handler:    _TimeTrackingService_CheckInOut_Handler,
 		},
 		{
 			MethodName: "GetTimeTracking",
