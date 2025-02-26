@@ -108,5 +108,6 @@ message OverTimeReq {
 message ApproveOvertimeReq {
   string id = 1; // time tracking id
   bool is_approved = 2;
-  optional string reason = 3;
+  double overtime_hours = 3;
+  optional string reason = 4;
 }
