@@ -1069,6 +1069,8 @@ func (m *ApproveOvertimeReq) validate(all bool) error {
 
 	// no validation rules for IsApproved
 
+	// no validation rules for OvertimeHours
+
 	if m.Reason != nil {
 		// no validation rules for Reason
 	}
