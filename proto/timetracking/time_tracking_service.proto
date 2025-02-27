@@ -59,6 +59,7 @@ message CheckInOutResp {
     string check_in_time = 3; // HH:mm:ss
     string check_out_time = 4; // HH:mm:ss
     timetracking.TimeTrackingStatus status = 5;
+    string location = 6;
   }
   oneof resp {
     Data data = 2;
