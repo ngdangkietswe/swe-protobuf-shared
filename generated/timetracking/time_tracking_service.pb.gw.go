@@ -67,6 +67,7 @@ func request_TimeTrackingService_GetTimeTracking_0(ctx context.Context, marshale
 		metadata runtime.ServerMetadata
 		err      error
 	)
+	io.Copy(io.Discard, req.Body)
 	val, ok := pathParams["id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "id")
@@ -116,6 +117,7 @@ func request_TimeTrackingService_GetListTimeTracking_0(ctx context.Context, mars
 		protoReq GetListTimeTrackingReq
 		metadata runtime.ServerMetadata
 	)
+	io.Copy(io.Discard, req.Body)
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}

@@ -65,6 +65,7 @@ func request_StravaService_RemoveStravaAccount_0(ctx context.Context, marshaler 
 		protoReq common.EmptyReq
 		metadata runtime.ServerMetadata
 	)
+	io.Copy(io.Discard, req.Body)
 	msg, err := client.RemoveStravaAccount(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
@@ -85,6 +86,7 @@ func request_StravaService_GetStravaAccount_0(ctx context.Context, marshaler run
 		protoReq GetStravaAccountReq
 		metadata runtime.ServerMetadata
 	)
+	io.Copy(io.Discard, req.Body)
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
@@ -141,6 +143,7 @@ func request_StravaService_GetStravaActivities_0(ctx context.Context, marshaler 
 		protoReq GetStravaActivitiesReq
 		metadata runtime.ServerMetadata
 	)
+	io.Copy(io.Discard, req.Body)
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
@@ -172,6 +175,7 @@ func request_StravaService_RemoveStravaActivity_0(ctx context.Context, marshaler
 		metadata runtime.ServerMetadata
 		err      error
 	)
+	io.Copy(io.Discard, req.Body)
 	val, ok := pathParams["id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "id")
