@@ -1187,6 +1187,8 @@ func (m *CheckInOutResp_Data) validate(all bool) error {
 
 	// no validation rules for Status
 
+	// no validation rules for Location
+
 	if len(errors) > 0 {
 		return CheckInOutResp_DataMultiError(errors)
 	}
