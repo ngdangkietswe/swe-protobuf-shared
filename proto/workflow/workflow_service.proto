@@ -1,0 +1,51 @@
+syntax = "proto3";
+package workflow;
+
+option go_package = "proto/workflow";
+
+option java_multiple_files = true;
+option java_package = "dev.ngdangkietswe.sweprotobufshared.workflow";
+option java_outer_classname = "WorkflowServiceAPI";
+
+import "google/api/annotations.proto";
+import "common/shared.proto";
+import "workflow/shared.proto";
+
+service WorkflowService {
+  rpc GetWorkflow(common.IdReq) returns (GetWorkflowResp) {
+    option (google.api.http) = {
+      get: "/api/v1/workflows/{id}"
+    };
+  }
+
+  rpc GetListWorkflow(GetListWorkflowReq) returns (GetListWorkflowResp) {
+    option (google.api.http) = {
+      get: "/api/v1/workflows"
+    };
+  }
+}
+
+message GetWorkflowResp {
+  bool success = 1;
+  oneof resp {
+    Workflow workflow = 2;
+    common.Error error = 3;
+  }
+}
+
+message GetListWorkflowReq {
+  common.Pageable pageable = 1;
+  optional string search = 2;
+  optional common.Module module = 3;
+}
+
+message GetListWorkflowResp {
+  bool success = 1;
+  message Data {
+    repeated Workflow workflows = 1;
+  }
+  oneof resp {
+    Data data = 2;
+    common.Error error = 3;
+  }
+}

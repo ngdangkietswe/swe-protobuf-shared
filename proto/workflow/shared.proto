@@ -1,0 +1,49 @@
+syntax = "proto3";
+package workflow;
+
+option java_multiple_files = true;
+option java_package = "dev.ngdangkietswe.sweprotobufshared.workflow.protobuf";
+option java_outer_classname = "WorkflowProtobuf";
+
+import "common/shared.proto";
+
+message State {
+  string id = 1;
+  string workflow_id = 2;
+  string name = 3;
+  string code = 4;
+  string hex_color = 5;
+  bool is_initial = 6;
+  bool is_final = 7;
+  int32 order_no = 8;
+}
+
+message Transition {
+  string id = 1;
+  string workflow_id = 2;
+  string name = 3;
+  string code = 4;
+  string source_state_id = 5;
+  string target_state_id = 6;
+  string condition_expr = 7;
+}
+
+message Workflow {
+  string id = 1;
+  string name = 2;
+  string code = 3;
+  common.Module module = 4;
+  bool is_default = 5;
+  repeated State states = 6;
+  repeated Transition transitions = 7;
+}
+
+message InstanceLog {
+  string id = 1;
+  string workflow_id = 2;
+  string entity_id = 3;
+  Transition transition = 4;
+  common.User performer = 5;
+  string performed_at = 6;
+  string comment = 7;
+}

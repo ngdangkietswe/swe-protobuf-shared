@@ -7,6 +7,16 @@ option java_multiple_files = true;
 option java_package = "dev.ngdangkietswe.sweprotobufshared.common.protobuf";
 option java_outer_classname = "CommonProtobuf";
 
+enum Module {
+  MODULE_UNSPECIFIED = 0;
+  MODULE_AUTH = 1;
+  MODULE_TASK = 2;
+  MODULE_INTEGRATION = 3;
+  MODULE_TIME_TRACKING = 4;
+  MODULE_NOTIFICATION = 5;
+  MODULE_WORKFLOW = 6;
+}
+
 message Pageable {
   int32 page = 1;
   int32 size = 2;
