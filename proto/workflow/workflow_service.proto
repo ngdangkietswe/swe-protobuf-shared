@@ -43,6 +43,7 @@ message GetListWorkflowResp {
   bool success = 1;
   message Data {
     repeated Workflow workflows = 1;
+    common.PageMetaData page_meta_data = 2;
   }
   oneof resp {
     Data data = 2;
