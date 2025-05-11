@@ -23,6 +23,7 @@ const (
 	WorkflowService_GetWorkflow_FullMethodName     = "/workflow.WorkflowService/GetWorkflow"
 	WorkflowService_GetListWorkflow_FullMethodName = "/workflow.WorkflowService/GetListWorkflow"
 	WorkflowService_DeleteWorkflow_FullMethodName  = "/workflow.WorkflowService/DeleteWorkflow"
+	WorkflowService_CloneWorkflow_FullMethodName   = "/workflow.WorkflowService/CloneWorkflow"
 )
 
 // WorkflowServiceClient is the client API for WorkflowService service.
@@ -32,6 +33,7 @@ type WorkflowServiceClient interface {
 	GetWorkflow(ctx context.Context, in *common.IdReq, opts ...grpc.CallOption) (*GetWorkflowResp, error)
 	GetListWorkflow(ctx context.Context, in *GetListWorkflowReq, opts ...grpc.CallOption) (*GetListWorkflowResp, error)
 	DeleteWorkflow(ctx context.Context, in *common.IdReq, opts ...grpc.CallOption) (*common.EmptyResp, error)
+	CloneWorkflow(ctx context.Context, in *CloneWorkflowReq, opts ...grpc.CallOption) (*common.UpsertResp, error)
 }
 
 type workflowServiceClient struct {
@@ -72,6 +74,16 @@ func (c *workflowServiceClient) DeleteWorkflow(ctx context.Context, in *common.I
 	return out, nil
 }
 
+func (c *workflowServiceClient) CloneWorkflow(ctx context.Context, in *CloneWorkflowReq, opts ...grpc.CallOption) (*common.UpsertResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(common.UpsertResp)
+	err := c.cc.Invoke(ctx, WorkflowService_CloneWorkflow_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // WorkflowServiceServer is the server API for WorkflowService service.
 // All implementations must embed UnimplementedWorkflowServiceServer
 // for forward compatibility.
@@ -79,6 +91,7 @@ type WorkflowServiceServer interface {
 	GetWorkflow(context.Context, *common.IdReq) (*GetWorkflowResp, error)
 	GetListWorkflow(context.Context, *GetListWorkflowReq) (*GetListWorkflowResp, error)
 	DeleteWorkflow(context.Context, *common.IdReq) (*common.EmptyResp, error)
+	CloneWorkflow(context.Context, *CloneWorkflowReq) (*common.UpsertResp, error)
 	mustEmbedUnimplementedWorkflowServiceServer()
 }
 
@@ -97,6 +110,9 @@ func (UnimplementedWorkflowServiceServer) GetListWorkflow(context.Context, *GetL
 }
 func (UnimplementedWorkflowServiceServer) DeleteWorkflow(context.Context, *common.IdReq) (*common.EmptyResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteWorkflow not implemented")
+}
+func (UnimplementedWorkflowServiceServer) CloneWorkflow(context.Context, *CloneWorkflowReq) (*common.UpsertResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CloneWorkflow not implemented")
 }
 func (UnimplementedWorkflowServiceServer) mustEmbedUnimplementedWorkflowServiceServer() {}
 func (UnimplementedWorkflowServiceServer) testEmbeddedByValue()                         {}
@@ -173,6 +189,24 @@ func _WorkflowService_DeleteWorkflow_Handler(srv interface{}, ctx context.Contex
 	return interceptor(ctx, in, info, handler)
 }
 
+func _WorkflowService_CloneWorkflow_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CloneWorkflowReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(WorkflowServiceServer).CloneWorkflow(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: WorkflowService_CloneWorkflow_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(WorkflowServiceServer).CloneWorkflow(ctx, req.(*CloneWorkflowReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // WorkflowService_ServiceDesc is the grpc.ServiceDesc for WorkflowService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -191,6 +225,10 @@ var WorkflowService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeleteWorkflow",
 			Handler:    _WorkflowService_DeleteWorkflow_Handler,
+		},
+		{
+			MethodName: "CloneWorkflow",
+			Handler:    _WorkflowService_CloneWorkflow_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

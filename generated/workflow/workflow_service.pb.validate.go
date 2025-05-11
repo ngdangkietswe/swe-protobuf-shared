@@ -558,6 +558,116 @@ var _ interface {
 	ErrorName() string
 } = GetListWorkflowRespValidationError{}
 
+// Validate checks the field values on CloneWorkflowReq with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// first error encountered is returned, or nil if there are no violations.
+func (m *CloneWorkflowReq) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on CloneWorkflowReq with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// CloneWorkflowReqMultiError, or nil if none found.
+func (m *CloneWorkflowReq) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *CloneWorkflowReq) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Id
+
+	if m.Name != nil {
+		// no validation rules for Name
+	}
+
+	if m.Module != nil {
+		// no validation rules for Module
+	}
+
+	if len(errors) > 0 {
+		return CloneWorkflowReqMultiError(errors)
+	}
+
+	return nil
+}
+
+// CloneWorkflowReqMultiError is an error wrapping multiple validation errors
+// returned by CloneWorkflowReq.ValidateAll() if the designated constraints
+// aren't met.
+type CloneWorkflowReqMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m CloneWorkflowReqMultiError) Error() string {
+	msgs := make([]string, 0, len(m))
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m CloneWorkflowReqMultiError) AllErrors() []error { return m }
+
+// CloneWorkflowReqValidationError is the validation error returned by
+// CloneWorkflowReq.Validate if the designated constraints aren't met.
+type CloneWorkflowReqValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e CloneWorkflowReqValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e CloneWorkflowReqValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e CloneWorkflowReqValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e CloneWorkflowReqValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e CloneWorkflowReqValidationError) ErrorName() string { return "CloneWorkflowReqValidationError" }
+
+// Error satisfies the builtin error interface
+func (e CloneWorkflowReqValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sCloneWorkflowReq.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = CloneWorkflowReqValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = CloneWorkflowReqValidationError{}
+
 // Validate checks the field values on GetListWorkflowResp_Data with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, the first error encountered is returned, or nil if there are no violations.

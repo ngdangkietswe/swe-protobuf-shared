@@ -263,6 +263,66 @@ func (*GetListWorkflowResp_Data_) isGetListWorkflowResp_Resp() {}
 
 func (*GetListWorkflowResp_Error) isGetListWorkflowResp_Resp() {}
 
+type CloneWorkflowReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Name          *string                `protobuf:"bytes,2,opt,name=name,proto3,oneof" json:"name,omitempty"`
+	Module        *common.Module         `protobuf:"varint,3,opt,name=module,proto3,enum=common.Module,oneof" json:"module,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CloneWorkflowReq) Reset() {
+	*x = CloneWorkflowReq{}
+	mi := &file_workflow_workflow_service_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CloneWorkflowReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CloneWorkflowReq) ProtoMessage() {}
+
+func (x *CloneWorkflowReq) ProtoReflect() protoreflect.Message {
+	mi := &file_workflow_workflow_service_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CloneWorkflowReq.ProtoReflect.Descriptor instead.
+func (*CloneWorkflowReq) Descriptor() ([]byte, []int) {
+	return file_workflow_workflow_service_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *CloneWorkflowReq) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *CloneWorkflowReq) GetName() string {
+	if x != nil && x.Name != nil {
+		return *x.Name
+	}
+	return ""
+}
+
+func (x *CloneWorkflowReq) GetModule() common.Module {
+	if x != nil && x.Module != nil {
+		return *x.Module
+	}
+	return common.Module(0)
+}
+
 type GetListWorkflowResp_Data struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Workflows     []*Workflow            `protobuf:"bytes,1,rep,name=workflows,proto3" json:"workflows,omitempty"`
@@ -273,7 +333,7 @@ type GetListWorkflowResp_Data struct {
 
 func (x *GetListWorkflowResp_Data) Reset() {
 	*x = GetListWorkflowResp_Data{}
-	mi := &file_workflow_workflow_service_proto_msgTypes[3]
+	mi := &file_workflow_workflow_service_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -285,7 +345,7 @@ func (x *GetListWorkflowResp_Data) String() string {
 func (*GetListWorkflowResp_Data) ProtoMessage() {}
 
 func (x *GetListWorkflowResp_Data) ProtoReflect() protoreflect.Message {
-	mi := &file_workflow_workflow_service_proto_msgTypes[3]
+	mi := &file_workflow_workflow_service_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -338,11 +398,18 @@ const file_workflow_workflow_service_proto_rawDesc = "" +
 	"\x04Data\x120\n" +
 	"\tworkflows\x18\x01 \x03(\v2\x12.workflow.WorkflowR\tworkflows\x12:\n" +
 	"\x0epage_meta_data\x18\x02 \x01(\v2\x14.common.PageMetaDataR\fpageMetaDataB\x06\n" +
-	"\x04resp2\xa9\x02\n" +
+	"\x04resp\"|\n" +
+	"\x10CloneWorkflowReq\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12\x17\n" +
+	"\x04name\x18\x02 \x01(\tH\x00R\x04name\x88\x01\x01\x12+\n" +
+	"\x06module\x18\x03 \x01(\x0e2\x0e.common.ModuleH\x01R\x06module\x88\x01\x01B\a\n" +
+	"\x05_nameB\t\n" +
+	"\a_module2\x8b\x03\n" +
 	"\x0fWorkflowService\x12W\n" +
 	"\vGetWorkflow\x12\r.common.IdReq\x1a\x19.workflow.GetWorkflowResp\"\x1e\x82\xd3\xe4\x93\x02\x18\x12\x16/api/v1/workflows/{id}\x12i\n" +
 	"\x0fGetListWorkflow\x12\x1c.workflow.GetListWorkflowReq\x1a\x1d.workflow.GetListWorkflowResp\"\x19\x82\xd3\xe4\x93\x02\x13\x12\x11/api/v1/workflows\x12R\n" +
-	"\x0eDeleteWorkflow\x12\r.common.IdReq\x1a\x11.common.EmptyResp\"\x1e\x82\xd3\xe4\x93\x02\x18*\x16/api/v1/workflows/{id}B\xa5\x01\n" +
+	"\x0eDeleteWorkflow\x12\r.common.IdReq\x1a\x11.common.EmptyResp\"\x1e\x82\xd3\xe4\x93\x02\x18*\x16/api/v1/workflows/{id}\x12`\n" +
+	"\rCloneWorkflow\x12\x1a.workflow.CloneWorkflowReq\x1a\x12.common.UpsertResp\"\x1f\x82\xd3\xe4\x93\x02\x19\"\x17/api/v1/workflows/cloneB\xa5\x01\n" +
 	"\fcom.workflowB\x14WorkflowServiceProtoP\x01Z?github.com/ngdangkietswe/swe-protobuf-shared/generated/workflow\xa2\x02\x03WXX\xaa\x02\bWorkflow\xca\x02\bWorkflow\xe2\x02\x14Workflow\\GPBMetadata\xea\x02\bWorkflowb\x06proto3"
 
 var (
@@ -357,40 +424,45 @@ func file_workflow_workflow_service_proto_rawDescGZIP() []byte {
 	return file_workflow_workflow_service_proto_rawDescData
 }
 
-var file_workflow_workflow_service_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
+var file_workflow_workflow_service_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
 var file_workflow_workflow_service_proto_goTypes = []any{
 	(*GetWorkflowResp)(nil),          // 0: workflow.GetWorkflowResp
 	(*GetListWorkflowReq)(nil),       // 1: workflow.GetListWorkflowReq
 	(*GetListWorkflowResp)(nil),      // 2: workflow.GetListWorkflowResp
-	(*GetListWorkflowResp_Data)(nil), // 3: workflow.GetListWorkflowResp.Data
-	(*Workflow)(nil),                 // 4: workflow.Workflow
-	(*common.Error)(nil),             // 5: common.Error
-	(*common.Pageable)(nil),          // 6: common.Pageable
-	(common.Module)(0),               // 7: common.Module
-	(*common.PageMetaData)(nil),      // 8: common.PageMetaData
-	(*common.IdReq)(nil),             // 9: common.IdReq
-	(*common.EmptyResp)(nil),         // 10: common.EmptyResp
+	(*CloneWorkflowReq)(nil),         // 3: workflow.CloneWorkflowReq
+	(*GetListWorkflowResp_Data)(nil), // 4: workflow.GetListWorkflowResp.Data
+	(*Workflow)(nil),                 // 5: workflow.Workflow
+	(*common.Error)(nil),             // 6: common.Error
+	(*common.Pageable)(nil),          // 7: common.Pageable
+	(common.Module)(0),               // 8: common.Module
+	(*common.PageMetaData)(nil),      // 9: common.PageMetaData
+	(*common.IdReq)(nil),             // 10: common.IdReq
+	(*common.EmptyResp)(nil),         // 11: common.EmptyResp
+	(*common.UpsertResp)(nil),        // 12: common.UpsertResp
 }
 var file_workflow_workflow_service_proto_depIdxs = []int32{
-	4,  // 0: workflow.GetWorkflowResp.workflow:type_name -> workflow.Workflow
-	5,  // 1: workflow.GetWorkflowResp.error:type_name -> common.Error
-	6,  // 2: workflow.GetListWorkflowReq.pageable:type_name -> common.Pageable
-	7,  // 3: workflow.GetListWorkflowReq.module:type_name -> common.Module
-	3,  // 4: workflow.GetListWorkflowResp.data:type_name -> workflow.GetListWorkflowResp.Data
-	5,  // 5: workflow.GetListWorkflowResp.error:type_name -> common.Error
-	4,  // 6: workflow.GetListWorkflowResp.Data.workflows:type_name -> workflow.Workflow
-	8,  // 7: workflow.GetListWorkflowResp.Data.page_meta_data:type_name -> common.PageMetaData
-	9,  // 8: workflow.WorkflowService.GetWorkflow:input_type -> common.IdReq
-	1,  // 9: workflow.WorkflowService.GetListWorkflow:input_type -> workflow.GetListWorkflowReq
-	9,  // 10: workflow.WorkflowService.DeleteWorkflow:input_type -> common.IdReq
-	0,  // 11: workflow.WorkflowService.GetWorkflow:output_type -> workflow.GetWorkflowResp
-	2,  // 12: workflow.WorkflowService.GetListWorkflow:output_type -> workflow.GetListWorkflowResp
-	10, // 13: workflow.WorkflowService.DeleteWorkflow:output_type -> common.EmptyResp
-	11, // [11:14] is the sub-list for method output_type
-	8,  // [8:11] is the sub-list for method input_type
-	8,  // [8:8] is the sub-list for extension type_name
-	8,  // [8:8] is the sub-list for extension extendee
-	0,  // [0:8] is the sub-list for field type_name
+	5,  // 0: workflow.GetWorkflowResp.workflow:type_name -> workflow.Workflow
+	6,  // 1: workflow.GetWorkflowResp.error:type_name -> common.Error
+	7,  // 2: workflow.GetListWorkflowReq.pageable:type_name -> common.Pageable
+	8,  // 3: workflow.GetListWorkflowReq.module:type_name -> common.Module
+	4,  // 4: workflow.GetListWorkflowResp.data:type_name -> workflow.GetListWorkflowResp.Data
+	6,  // 5: workflow.GetListWorkflowResp.error:type_name -> common.Error
+	8,  // 6: workflow.CloneWorkflowReq.module:type_name -> common.Module
+	5,  // 7: workflow.GetListWorkflowResp.Data.workflows:type_name -> workflow.Workflow
+	9,  // 8: workflow.GetListWorkflowResp.Data.page_meta_data:type_name -> common.PageMetaData
+	10, // 9: workflow.WorkflowService.GetWorkflow:input_type -> common.IdReq
+	1,  // 10: workflow.WorkflowService.GetListWorkflow:input_type -> workflow.GetListWorkflowReq
+	10, // 11: workflow.WorkflowService.DeleteWorkflow:input_type -> common.IdReq
+	3,  // 12: workflow.WorkflowService.CloneWorkflow:input_type -> workflow.CloneWorkflowReq
+	0,  // 13: workflow.WorkflowService.GetWorkflow:output_type -> workflow.GetWorkflowResp
+	2,  // 14: workflow.WorkflowService.GetListWorkflow:output_type -> workflow.GetListWorkflowResp
+	11, // 15: workflow.WorkflowService.DeleteWorkflow:output_type -> common.EmptyResp
+	12, // 16: workflow.WorkflowService.CloneWorkflow:output_type -> common.UpsertResp
+	13, // [13:17] is the sub-list for method output_type
+	9,  // [9:13] is the sub-list for method input_type
+	9,  // [9:9] is the sub-list for extension type_name
+	9,  // [9:9] is the sub-list for extension extendee
+	0,  // [0:9] is the sub-list for field type_name
 }
 
 func init() { file_workflow_workflow_service_proto_init() }
@@ -408,13 +480,14 @@ func file_workflow_workflow_service_proto_init() {
 		(*GetListWorkflowResp_Data_)(nil),
 		(*GetListWorkflowResp_Error)(nil),
 	}
+	file_workflow_workflow_service_proto_msgTypes[3].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_workflow_workflow_service_proto_rawDesc), len(file_workflow_workflow_service_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   4,
+			NumMessages:   5,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
