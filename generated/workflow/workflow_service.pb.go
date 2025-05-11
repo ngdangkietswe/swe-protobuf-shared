@@ -338,10 +338,11 @@ const file_workflow_workflow_service_proto_rawDesc = "" +
 	"\x04Data\x120\n" +
 	"\tworkflows\x18\x01 \x03(\v2\x12.workflow.WorkflowR\tworkflows\x12:\n" +
 	"\x0epage_meta_data\x18\x02 \x01(\v2\x14.common.PageMetaDataR\fpageMetaDataB\x06\n" +
-	"\x04resp2\xd5\x01\n" +
+	"\x04resp2\xa9\x02\n" +
 	"\x0fWorkflowService\x12W\n" +
 	"\vGetWorkflow\x12\r.common.IdReq\x1a\x19.workflow.GetWorkflowResp\"\x1e\x82\xd3\xe4\x93\x02\x18\x12\x16/api/v1/workflows/{id}\x12i\n" +
-	"\x0fGetListWorkflow\x12\x1c.workflow.GetListWorkflowReq\x1a\x1d.workflow.GetListWorkflowResp\"\x19\x82\xd3\xe4\x93\x02\x13\x12\x11/api/v1/workflowsB\xa5\x01\n" +
+	"\x0fGetListWorkflow\x12\x1c.workflow.GetListWorkflowReq\x1a\x1d.workflow.GetListWorkflowResp\"\x19\x82\xd3\xe4\x93\x02\x13\x12\x11/api/v1/workflows\x12R\n" +
+	"\x0eDeleteWorkflow\x12\r.common.IdReq\x1a\x11.common.EmptyResp\"\x1e\x82\xd3\xe4\x93\x02\x18*\x16/api/v1/workflows/{id}B\xa5\x01\n" +
 	"\fcom.workflowB\x14WorkflowServiceProtoP\x01Z?github.com/ngdangkietswe/swe-protobuf-shared/generated/workflow\xa2\x02\x03WXX\xaa\x02\bWorkflow\xca\x02\bWorkflow\xe2\x02\x14Workflow\\GPBMetadata\xea\x02\bWorkflowb\x06proto3"
 
 var (
@@ -368,6 +369,7 @@ var file_workflow_workflow_service_proto_goTypes = []any{
 	(common.Module)(0),               // 7: common.Module
 	(*common.PageMetaData)(nil),      // 8: common.PageMetaData
 	(*common.IdReq)(nil),             // 9: common.IdReq
+	(*common.EmptyResp)(nil),         // 10: common.EmptyResp
 }
 var file_workflow_workflow_service_proto_depIdxs = []int32{
 	4,  // 0: workflow.GetWorkflowResp.workflow:type_name -> workflow.Workflow
@@ -380,10 +382,12 @@ var file_workflow_workflow_service_proto_depIdxs = []int32{
 	8,  // 7: workflow.GetListWorkflowResp.Data.page_meta_data:type_name -> common.PageMetaData
 	9,  // 8: workflow.WorkflowService.GetWorkflow:input_type -> common.IdReq
 	1,  // 9: workflow.WorkflowService.GetListWorkflow:input_type -> workflow.GetListWorkflowReq
-	0,  // 10: workflow.WorkflowService.GetWorkflow:output_type -> workflow.GetWorkflowResp
-	2,  // 11: workflow.WorkflowService.GetListWorkflow:output_type -> workflow.GetListWorkflowResp
-	10, // [10:12] is the sub-list for method output_type
-	8,  // [8:10] is the sub-list for method input_type
+	9,  // 10: workflow.WorkflowService.DeleteWorkflow:input_type -> common.IdReq
+	0,  // 11: workflow.WorkflowService.GetWorkflow:output_type -> workflow.GetWorkflowResp
+	2,  // 12: workflow.WorkflowService.GetListWorkflow:output_type -> workflow.GetListWorkflowResp
+	10, // 13: workflow.WorkflowService.DeleteWorkflow:output_type -> common.EmptyResp
+	11, // [11:14] is the sub-list for method output_type
+	8,  // [8:11] is the sub-list for method input_type
 	8,  // [8:8] is the sub-list for extension type_name
 	8,  // [8:8] is the sub-list for extension extendee
 	0,  // [0:8] is the sub-list for field type_name
