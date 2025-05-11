@@ -29,6 +29,12 @@ service WorkflowService {
       delete: "/api/v1/workflows/{id}"
     };
   }
+
+  rpc CloneWorkflow(CloneWorkflowReq) returns (common.UpsertResp) {
+    option (google.api.http) = {
+      post: "/api/v1/workflows/clone"
+    };
+  }
 }
 
 message GetWorkflowResp {
@@ -55,4 +61,10 @@ message GetListWorkflowResp {
     Data data = 2;
     common.Error error = 3;
   }
+}
+
+message CloneWorkflowReq {
+  string id = 1;
+  optional string name = 2;
+  optional common.Module module = 3;
 }
