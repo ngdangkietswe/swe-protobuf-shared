@@ -23,6 +23,12 @@ service WorkflowService {
       get: "/api/v1/workflows"
     };
   }
+
+  rpc DeleteWorkflow(common.IdReq) returns (common.EmptyResp) {
+    option (google.api.http) = {
+      delete: "/api/v1/workflows/{id}"
+    };
+  }
 }
 
 message GetWorkflowResp {
