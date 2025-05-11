@@ -266,6 +266,7 @@ func (*GetListWorkflowResp_Error) isGetListWorkflowResp_Resp() {}
 type GetListWorkflowResp_Data struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Workflows     []*Workflow            `protobuf:"bytes,1,rep,name=workflows,proto3" json:"workflows,omitempty"`
+	PageMetaData  *common.PageMetaData   `protobuf:"bytes,2,opt,name=page_meta_data,json=pageMetaData,proto3" json:"page_meta_data,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -307,6 +308,13 @@ func (x *GetListWorkflowResp_Data) GetWorkflows() []*Workflow {
 	return nil
 }
 
+func (x *GetListWorkflowResp_Data) GetPageMetaData() *common.PageMetaData {
+	if x != nil {
+		return x.PageMetaData
+	}
+	return nil
+}
+
 var File_workflow_workflow_service_proto protoreflect.FileDescriptor
 
 const file_workflow_workflow_service_proto_rawDesc = "" +
@@ -322,13 +330,14 @@ const file_workflow_workflow_service_proto_rawDesc = "" +
 	"\x06search\x18\x02 \x01(\tH\x00R\x06search\x88\x01\x01\x12+\n" +
 	"\x06module\x18\x03 \x01(\x0e2\x0e.common.ModuleH\x01R\x06module\x88\x01\x01B\t\n" +
 	"\a_searchB\t\n" +
-	"\a_module\"\xd2\x01\n" +
+	"\a_module\"\x8e\x02\n" +
 	"\x13GetListWorkflowResp\x12\x18\n" +
 	"\asuccess\x18\x01 \x01(\bR\asuccess\x128\n" +
 	"\x04data\x18\x02 \x01(\v2\".workflow.GetListWorkflowResp.DataH\x00R\x04data\x12%\n" +
-	"\x05error\x18\x03 \x01(\v2\r.common.ErrorH\x00R\x05error\x1a8\n" +
+	"\x05error\x18\x03 \x01(\v2\r.common.ErrorH\x00R\x05error\x1at\n" +
 	"\x04Data\x120\n" +
-	"\tworkflows\x18\x01 \x03(\v2\x12.workflow.WorkflowR\tworkflowsB\x06\n" +
+	"\tworkflows\x18\x01 \x03(\v2\x12.workflow.WorkflowR\tworkflows\x12:\n" +
+	"\x0epage_meta_data\x18\x02 \x01(\v2\x14.common.PageMetaDataR\fpageMetaDataB\x06\n" +
 	"\x04resp2\xd5\x01\n" +
 	"\x0fWorkflowService\x12W\n" +
 	"\vGetWorkflow\x12\r.common.IdReq\x1a\x19.workflow.GetWorkflowResp\"\x1e\x82\xd3\xe4\x93\x02\x18\x12\x16/api/v1/workflows/{id}\x12i\n" +
@@ -357,25 +366,27 @@ var file_workflow_workflow_service_proto_goTypes = []any{
 	(*common.Error)(nil),             // 5: common.Error
 	(*common.Pageable)(nil),          // 6: common.Pageable
 	(common.Module)(0),               // 7: common.Module
-	(*common.IdReq)(nil),             // 8: common.IdReq
+	(*common.PageMetaData)(nil),      // 8: common.PageMetaData
+	(*common.IdReq)(nil),             // 9: common.IdReq
 }
 var file_workflow_workflow_service_proto_depIdxs = []int32{
-	4, // 0: workflow.GetWorkflowResp.workflow:type_name -> workflow.Workflow
-	5, // 1: workflow.GetWorkflowResp.error:type_name -> common.Error
-	6, // 2: workflow.GetListWorkflowReq.pageable:type_name -> common.Pageable
-	7, // 3: workflow.GetListWorkflowReq.module:type_name -> common.Module
-	3, // 4: workflow.GetListWorkflowResp.data:type_name -> workflow.GetListWorkflowResp.Data
-	5, // 5: workflow.GetListWorkflowResp.error:type_name -> common.Error
-	4, // 6: workflow.GetListWorkflowResp.Data.workflows:type_name -> workflow.Workflow
-	8, // 7: workflow.WorkflowService.GetWorkflow:input_type -> common.IdReq
-	1, // 8: workflow.WorkflowService.GetListWorkflow:input_type -> workflow.GetListWorkflowReq
-	0, // 9: workflow.WorkflowService.GetWorkflow:output_type -> workflow.GetWorkflowResp
-	2, // 10: workflow.WorkflowService.GetListWorkflow:output_type -> workflow.GetListWorkflowResp
-	9, // [9:11] is the sub-list for method output_type
-	7, // [7:9] is the sub-list for method input_type
-	7, // [7:7] is the sub-list for extension type_name
-	7, // [7:7] is the sub-list for extension extendee
-	0, // [0:7] is the sub-list for field type_name
+	4,  // 0: workflow.GetWorkflowResp.workflow:type_name -> workflow.Workflow
+	5,  // 1: workflow.GetWorkflowResp.error:type_name -> common.Error
+	6,  // 2: workflow.GetListWorkflowReq.pageable:type_name -> common.Pageable
+	7,  // 3: workflow.GetListWorkflowReq.module:type_name -> common.Module
+	3,  // 4: workflow.GetListWorkflowResp.data:type_name -> workflow.GetListWorkflowResp.Data
+	5,  // 5: workflow.GetListWorkflowResp.error:type_name -> common.Error
+	4,  // 6: workflow.GetListWorkflowResp.Data.workflows:type_name -> workflow.Workflow
+	8,  // 7: workflow.GetListWorkflowResp.Data.page_meta_data:type_name -> common.PageMetaData
+	9,  // 8: workflow.WorkflowService.GetWorkflow:input_type -> common.IdReq
+	1,  // 9: workflow.WorkflowService.GetListWorkflow:input_type -> workflow.GetListWorkflowReq
+	0,  // 10: workflow.WorkflowService.GetWorkflow:output_type -> workflow.GetWorkflowResp
+	2,  // 11: workflow.WorkflowService.GetListWorkflow:output_type -> workflow.GetListWorkflowResp
+	10, // [10:12] is the sub-list for method output_type
+	8,  // [8:10] is the sub-list for method input_type
+	8,  // [8:8] is the sub-list for extension type_name
+	8,  // [8:8] is the sub-list for extension extendee
+	0,  // [0:8] is the sub-list for field type_name
 }
 
 func init() { file_workflow_workflow_service_proto_init() }
